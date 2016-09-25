@@ -24,20 +24,16 @@ class User extends CI_Controller {
 			 $this->load->helper('url');
 			 $this->load->library('session');
 			 if ( ! $this->session->userdata('logged_in')){
-				  $this->load->view('login');
-	        // Allow some methods?
-	        // $allowed = array(
-	        //     'some_method_in_this_controller',
-	        //     'other_method_in_this_controller',
-	        // );
-	        // if ( ! in_array($this->router->fetch_method(), $allowed)
-	        // {
-	        //     redirect('login');
-	        // }
-	    }
+				  redirect('/user/signin', 'refresh');
+	    	}
 			 $this->load->database();
 			 $this->load->model('user_model');
 			 $this->load->model('common');
+			 $this->load->database();
+
+			$this->load->model('quotation_model');
+
+
 	 }
 
 
@@ -58,10 +54,15 @@ class User extends CI_Controller {
 	}
 
 	function dashboard(){
-		$this->load->view('dashboard_head');
+		// $this->load->view('dashboard_head');
+		// $this->load->view('side_menu');
+		// $this->load->view('dashboard');
+		// $this->load->view('dashboard_foot');
+		$data['quotations'] = $this->quotation_model->get_all_quotations();
+		$this->load->view('quotation_head');
 		$this->load->view('side_menu');
-		$this->load->view('dashboard');
-		$this->load->view('dashboard_foot');
+		$this->load->view('quotation',$data);
+		$this->load->view('quotation_foot');
 	}
 
 	function logout(){

@@ -84,11 +84,86 @@ class Quotation_Model extends CI_Model {
       $query = $this->db->get_where('tbl_hotel',$data);
      return $query->result();
     }
-    function add_hotel(){
-      echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>city</td><td>Hotel</td><td>Checkin</td><td>checkout</td><td>Night(s)</td><td>PAX</td><td>Minor(s)</td> </tr> </table> </div> </div>';
+
+    function get_rooms($id){
+      $data = array(
+        'hotel_id' => $id
+      );
+      $query = $this->db->get_where('tbl_room',$data);
+     return $query->result();
     }
+
+    function get_transfer_type(){
+      $query = $this->db->get('tbl_transfer_type');
+      return $query->result();
+    }
+    function get_timing(){
+      $query = $this->db->get('tbl_daytime');
+      return $query->result();
+    }
+
+    function get_services(){
+      $query = $this->db->get('tbl_services');
+      return $query->result();
+    }
+    function get_services_type(){
+      $query = $this->db->get('tbl_services_type');
+      return $query->result();
+    }
+
+
+    function get_quotation_hotel($id){
+      $search_query = array(
+        'quotation_id' => $id
+      );
+      $query = $this->db->get_where('tbl_quot_hotel',$search_query);
+      return $query->result();
+    }
+
+    function get_quotation_dayplan($id){
+      $search_query = array(
+        'quotation_id' => $id
+      );
+      $query = $this->db->get_where('tbl_dayplan',$search_query);
+      return $query->result();
+    }
+
+
+    function add_hotel(){
+      $insert_data = array(
+        'quotation_id' => $_REQUEST['qid'],
+        'city_id' => $_REQUEST['city_id'],
+        // 'city_area_id' => $_REQUEST['qname'],
+        'cin_date' => $_REQUEST['cidate'],
+        'cout_date' => $_REQUEST['codate'],
+        'no_pax' => $_REQUEST['pax'],
+        'hotel_id' => $_REQUEST['hotel_id']
+        // 'room_type_id' => $_REQUEST['qname'],
+      );
+      if($this->db->insert('tbl_quot_hotel',$insert_data)){
+        echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>'.$_REQUEST['city_id'].'</td><td>'.$_REQUEST['hotel_id'].'</td><td>'.$_REQUEST['cidate'].'</td><td>'.$_REQUEST['codate'].'</td><td>Night(s)</td><td>'.$_REQUEST['pax'].'</td><td>Minor(s)</td> </tr> </table> </div> </div>';
+      }else{
+        echo "Unable to add data due to " . $this->db->error();
+      }
+
+    }
+
+
+
     function add_dayplan(){
-      echo '<div class="panel panel-default"><div class="panel-body"><table class="table table-hover"><tr><th>date</th><th>Time</th><th>Services</th></tr><tr><td>date</td><td>Time</td><td>Services</td></tr></table></div></div>';
+      $insert_data = array(
+        'quotation_id' => $_REQUEST['qid'],
+        'dayplan_date' => $_REQUEST['dayplan_date'],
+        'daytime_id' => $_REQUEST['daytime_id'],
+         'services_type_id' => '1',
+        'services_id' => $_REQUEST['services_id']
+      );
+      if($this->db->insert('tbl_dayplan',$insert_data)){
+        echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th></tr><td>'.$_REQUEST['dayplan_date'].'</td><td>'.$_REQUEST['daytime_id'].'</td><td>'.$_REQUEST['services_id'].'</td></tr> </table> </div> </div>';
+      }else{
+        echo "Unable to add data due to " . $this->db->error();
+      }
+      // echo '<div class="panel panel-default"><div class="panel-body"><table class="table table-hover"><tr><th>date</th><th>Time</th><th>Services</th></tr><tr><td>date</td><td>Time</td><td>Services</td></tr></table></div></div>';
     }
 
 }

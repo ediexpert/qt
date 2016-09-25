@@ -48,8 +48,42 @@
     }
 
   }
+  public function get_service_name_by_id($id){
+    $str ="";
+    $parameters = explode(",",$id);
+    foreach ($parameters as $key => $val) {
+      $qry = array(
+        'id' => $val
+      );
+      $query = $this->db->get_where('tbl_services',$qry);
+      while($row =  $query->result()){
+        $str = $str.','.$row['service_name'];
+      }
+    }
+    return $str;
+
+  }
   public function get_all_transfers(){
     $query = $this->db->get('tbl_transfer');
     return $query->result();
+  }
+
+  public function get_city_by_id($id){
+    $search_query = array(
+      'id' => $id
+    );
+    $query = $this->db->get_where('tbl_city',$search_query);
+    foreach($query->result_array() as $row){
+        return $row['city_name'];
+    }
+  }
+  public function get_hotel_by_id($id){
+    $search_query = array(
+      'id' => $id
+    );
+    $query = $this->db->get_where('tbl_hotel',$search_query);
+    foreach($query->result_array() as $row){
+        return $row['hotel_name'];
+    }
   }
 }

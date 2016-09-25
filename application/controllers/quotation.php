@@ -23,9 +23,13 @@ class Quotation extends CI_Controller {
 			 parent::__construct();
 			 $this->load->database();
 			 $this->load->helper('url');
-			 $this->load->model('quotation_model');
 			 $this->load->library('session');
+			 if ( ! $this->session->userdata('logged_in')){
+				  redirect('/user/signin', 'refresh');
+	    	}
 			 $this->load->model('common');
+			 $this->load->model('quotation_model');
+
 	 }
 	public function index()
 	{
@@ -42,17 +46,9 @@ class Quotation extends CI_Controller {
 	}
 	public function new_quotation()
 	{
-		if(	! $this->session->userdata('logged_in')	){
-			redirect('user/signin');
-		}
-		// 	$this->load->view('new_quotation_head');
-		// $this->load->view('side_menu');
-		// $this->load->view('new_quotation');
-		// $this->load->view('new_quotation_foot');
 		$this->load->view('form_head');
 		$this->load->view('side_menu');
 		$this->load->view('new_quotation_form');
-		$this->load->view('form_foot');
 	}
 
 	function add(){
@@ -65,6 +61,13 @@ class Quotation extends CI_Controller {
 	function quot($id){
 		$data['quot'] = $this->quotation_model->get_quotation_data($id);
 		$data['cities'] = $this->quotation_model->get_cities();
+		$data['quotation_hotel'] = $this->quotation_model->get_quotation_hotel($id);
+		$data['quotation_dayplan'] = $this->quotation_model->get_quotation_dayplan($id);
+		$data['timing'] = $this->quotation_model->get_timing($id);
+		$data['transfer_type'] = $this->quotation_model->get_transfer_type();
+		$data['services'] = $this->quotation_model->get_services();
+		$data['services_type'] = $this->quotation_model->get_services_type();
+		$data['transfer_type'] = $this->quotation_model->get_transfer_type();
 		$this->load->view('new_quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('new_quotation_wizard',$data);
@@ -77,15 +80,22 @@ class Quotation extends CI_Controller {
 	        echo json_encode($data);
 	}
 
+	public function get_rooms($id)	{
+                $data['rooms'] = $this->quotation_model->get_rooms($id);
+	        echo json_encode($data);
+	}
+
+
 	function add_hotel(){
 		$res = $this->quotation_model->add_hotel();
 		echo json_encode($res);
 	}
 
-	function add_dayplan(){
+	public function add_dayplan(){
 		$res = $this->quotation_model->add_dayplan();
 		echo json_encode($res);
 	}
+
 }
 
 /* End of file welcome.php */

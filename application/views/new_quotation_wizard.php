@@ -116,14 +116,14 @@
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Arrival <span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" value="<?php echo $quot[0]->arrival_date;?>" required="required" type="text">
+                                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" value="<?php echo $quot[0]->arrival_date;?>" required="required" type="date">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12">Date Of Departure <span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="birthday2" class="date-picker form-control col-md-7 col-xs-12" value="<?php echo $quot[0]->departure_date;?>" required="required" type="text">
+                                <input id="birthday2" class="date-picker form-control col-md-7 col-xs-12" value="<?php echo $quot[0]->departure_date;?>" required="required" type="date">
                               </div>
                             </div>
                             <div class="form-group">
@@ -146,7 +146,17 @@
                         <h2 class="StepTitle text-center">Hotel(s)</h2>
                         <form class="form-horizontal form-label-left">
                           <input id="id_qid" type="hidden" name="quotation_id" value="<?php echo $quot[0]->id;?>">
-                          <div id="hotel_added_res"></div>
+                          <div id="hotel_added_res">
+                          <?php
+                            if(isset($quotation_hotel)){
+                              foreach ($quotation_hotel as $key => $value) {
+                                // print_r( $value);
+                                echo $this->common->get_hotel_by_id($value->hotel_id);
+                                echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>'.$this->common->get_city_by_id($value->city_id).'</td><td>'.$this->common->get_hotel_by_id($value->hotel_id).'</td><td>'.$value->cin_date.'</td><td>'.$value->cout_date.'</td><td>Night(s)</td><td>'.$value->no_pax.'</td><td>Minor(s)</td> </tr> </table> </div> </div>';
+                              }
+                            }
+                          ?>
+                          </div>
                           <div class="panel panel-default">
                             <div class="panel-body">
                               <div class="form-group">
@@ -178,37 +188,8 @@
                               <div class="form-group" >
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Options Available
                                 </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <div class="col-md-2 text-center">
-                                    <label>
-                                          <input type="checkbox">Checkin With Baby
-                                          <p class="text-danger">200 AED</p>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2 text-center">
-                                    <label>
-                                          <input type="checkbox">Checkin With Baby
-                                          <p class="text-danger">200 AED</p>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2 text-center">
-                                    <label>
-                                          <input type="checkbox">Checkin With Baby
-                                          <p class="text-danger">200 AED</p>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2 text-center">
-                                    <label>
-                                          <input type="checkbox">Checkin With Baby
-                                          <p class="text-danger">200 AED</p>
-                                    </label>
-                                  </div>
-                                  <div class="col-md-2 text-center">
-                                    <label>
-                                          <input type="checkbox">Checkin With Baby
-                                          <p class="text-danger">200 AED</p>
-                                    </label>
-                                  </div>
+                                <div id="id_room_type" class="col-md-6 col-sm-6 col-xs-12">
+                                  <!-- room will come here -->
                                 </div>
                               </div>
                               <!-- / Hotel options div -->
@@ -230,7 +211,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Night(s)
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="number" class="form-control" name="nights" value="">
+                                  <input type="number" id="hotel_night" class="form-control" name="nights" value="">
                                 </div>
                               </div>
                               <div class="form-group">
@@ -260,17 +241,23 @@
                         <h2 class="StepTitle text-center">Day Plan(s)</h2>
                         <form class="form-horizontal form-label-left">
                           <input type="hidden" name="quotation_id" value="<?php echo $quot[0]->id;?>">
+                          <div id="services_added_res">
+                            <?php
+                              if(isset($quotation_dayplan)){
+                                foreach ($quotation_dayplan as $key => $value) {
+                                  // print_r( $value);
+                                  echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th></tr><td>'.$value->dayplan_date.'</td><td>'.$value->daytime_id.'</td><td>'.$value->services_id.'</td></tr> </table> </div> </div>';
+                                }
+                              }
+                            ?>
+                          </div>
                           <div class="panel panel-default">
                             <div class="panel-body">
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Date
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <select id="cities" class="form-control">
-                                    <option value="1">date 1</option>
-                                    <option value="2">date 2</option>
-                                    <option value="3">date 3</option>
-                                  </select>
+                                  <input id="id_dayplan_date" type="date" name="dayplan_date" value="<?php echo $quot[0]->arrival_date;?>"  min="<?php echo $quot[0]->arrival_date;?>" max="<?php echo $quot[0]->departure_date;?>">
                                 </div>
                               </div>
                               <div class="form-group" >
@@ -278,29 +265,51 @@
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                                  <select id="hotels" class="form-control">
-                                    <option>Morning </option>
-                                    <option>Afternoon </option>
-                                    <option>Evening </option>
-                                    <option>Night </option>
-
+                                  <select id="id_daytime" class="form-control">
+                                    <option>Please select</option>
+                                    <?php
+                                    foreach ($timing as $key => $value) {
+                                      // print_r( $value);
+                                      echo '<option value="'.$value->id.'">'.$value->daytime.' </option>';
+                                    }
+                                    ?>
                                   </select>
                                 </div>
                               </div>
+                              <div class="form-group" >
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Service Type
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                  <select id="" class="form-control">
+                                    <option>Please select</option>
+                                    <?php
+                                    foreach ($services_type as $key => $value) {
+                                      // print_r( $value);
+                                      echo '<option value="'.$value->id.'">'.$value->service_type.' </option>';
+                                    }
+                                    ?>
+                                  </select>
+                                </div>
+                              </div>
+                              <div id="id_services_div" class="form-group"></div>
                               <div class="form-group" >
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Service
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                                  <select id="hotels" class="form-control">
-                                    <option>Food / breakfast /Lunch /Dinner </option>
-                                    <option>Dessert Safari </option>
-                                    <option>Ferrari World </option>
-                                    <option>Dubai City tour </option>
 
-                                  </select>
+                                    <?php
+                                    foreach ($services as $key => $value) {
+                                      // print_r( $value);
+                                      echo '<div class="checkbox"><label><input class="chkbx" type="checkbox" name="services[]" value="'.$value->id.'"  >'.$value->service_name.' </label></div> <!-- /checkbox div -->';
+                                    }
+                                    ?>
+                                    <input type="hidden" id='textbx' name="name" value="">
+
                                 </div>
                               </div>
+
                               <div id="service_div"></div>
 
 
@@ -315,7 +324,7 @@
                           </div>
                           <div id="days_div"></div>
 
-                          <button type="button" id="add_day" class="btn btn-primary" name="button">Add Another Day</button>
+                          <button type="button" id="id_add_dayplan" class="btn btn-primary" name="button">Add Another Day</button>
 
 
                         </form>
@@ -328,28 +337,19 @@
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select Transfer Type<span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="hotels" class="form-control">
-                                  <option>Food / breakfast /Lunch /Dinner </option>
-                                  <option>Dessert Safari </option>
-                                  <option>Ferrari World </option>
-                                  <option>Dubai City tour </option>
+                                <select id="id_txr_type" class="form-control">
+                                  <option>Select Please</option>
+                                  <?php
+                                  foreach ($transfer_type as $key => $value) {
+                                    // print_r( $value);
+                                    echo '<option value="'.$value->id.'"  >'.$value->transfer_type.' </option> <!-- /checkbox div -->';
+                                  }
+                                  ?>
 
                                 </select>
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select Transfer<span class="required">*</span>
-                              </label>
-                              <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="hotels" class="form-control">
-                                  <option>Food / breakfast /Lunch /Dinner </option>
-                                  <option>Dessert Safari </option>
-                                  <option>Ferrari World </option>
-                                  <option>Dubai City tour </option>
 
-                                </select>
-                              </div>
-                            </div>
 
 
                         </form>
@@ -415,36 +415,75 @@
         <!-- /jQuery Smart Wizard -->
         <!-- bootstrap-daterangepicker -->
         <script>
-          $(document).ready(function() {
-            $('#birthday').daterangepicker({
-              singleDatePicker: true,
-              calender_style: "picker_4"
-            }, function(start, end, label) {
-              console.log(start.toISOString(), end.toISOString(), label);
-            });
-          });
+          // $(document).ready(function() {
+          //   $('#birthday').daterangepicker({
+          //     singleDatePicker: true,
+          //     calender_style: "picker_4"
+          //   }, function(start, end, label) {
+          //     console.log(start.toISOString(), end.toISOString(), label);
+          //   });
+          // });
         </script>
         <!-- /bootstrap-daterangepicker -->
         <!-- bootstrap-daterangepicker -->
         <script>
-          $(document).ready(function() {
-            $('#birthday2').daterangepicker({
-              singleDatePicker: true,
-              calender_style: "picker_4"
-            }, function(start, end, label) {
-              console.log(start.toISOString(), end.toISOString(), label);
-              console.log(daydiff(parseDate($('#birthday').val()), parseDate($('#birthday2').val())));
-              var d= daydiff(parseDate($('#birthday').val()), parseDate($('#birthday2').val()));
-              $('#nights').val(d);
-            });
-          });
+          // $(document).ready(function() {
+          //   $('#birthday2').daterangepicker({
+          //     singleDatePicker: true,
+          //     calender_style: "picker_4"
+          //   }, function(start, end, label) {
+          //     console.log(start.toISOString(), end.toISOString(), label);
+          //     console.log(daydiff(parseDate($('#birthday').val()), parseDate($('#birthday2').val())));
+          //     var d= daydiff(parseDate($('#birthday').val()), parseDate($('#birthday2').val()));
+          //     $('#nights').val(d);
+          //   });
+          // });
         </script>
         <!-- /bootstrap-daterangepicker -->
+
         <!-- calculate night(s) -->
+
         <script>
+        $(document).ready(function() {
+          var d= daydiff( parseDate($('#birthday').val()), parseDate($('#birthday2').val()) );
+           $('#nights').val(d);
+        });
+        $(document).ready(function() {
+          $('#birthday2').change(function(){
+            var d= daydiff( parseDate($('#birthday').val()), parseDate($('#birthday2').val()) );
+             $('#nights').val(d);
+          })
+        });
+        $(document).ready(function() {
+          $('#birthday').change(function(){
+            var d= daydiff( parseDate($('#birthday').val()), parseDate($('#birthday2').val()) );
+             $('#nights').val(d);
+          })
+        });
+
+
+        $(document).ready(function() {
+          var d= daydiff( parseDate($('#id_cidate').val()), parseDate($('#id_codate').val()) );
+           $('#hotel_night').val(d);
+        });
+        $(document).ready(function() {
+          $('#id_codate').change(function(){
+            var nd= daydiff( parseDate($('#id_cidate').val()), parseDate($('#id_codate').val()) );
+             $('#hotel_night').val(nd);
+          })
+        });
+        $(document).ready(function() {
+          $('#id_cidate').change(function(){
+            var nd= daydiff( parseDate($('#id_cidate').val()), parseDate($('#id_codate').val()) );
+             $('#hotel_night').val(nd);
+          })
+        });
+
+
         function parseDate(str) {
-            var mdy = str.split('/');
-            return new Date(mdy[2], mdy[0]-1, mdy[1]);
+            var mdy = str.split('-');
+            //return new Date(mdy[2], mdy[0]-1, mdy[1]);
+            return new Date(mdy[0], mdy[1], mdy[2]);
         }
 
         function daydiff(first, second) {
@@ -521,31 +560,119 @@
             });
             </script>
             <!-- /add service -->
-            <!-- add day -->
-            <script>
-            $(document).ready(function(){
-              $('#add_day').click(function(){
-                  console.log("click to add day div");
-                  $('#days_div').append('<div class="panel panel-default"> <div class="panel-body"> <div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Date </label> <div class="col-md-6 col-sm-6 col-xs-12"> <select id="cities" class="form-control"> <option value="1">date 1</option> <option value="2">date 2</option> <option value="3">date 3</option> </select> </div> </div> <div class="form-group" > <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Time </label> <div class="col-md-6 col-sm-6 col-xs-12"> <select id="hotels" class="form-control"> <option>Morning </option> <option>Afternoon </option> <option>Evening </option> <option>Night </option> </select> </div> </div> <div class="form-group" > <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Service </label> <div class="col-md-6 col-sm-6 col-xs-12"> <select id="hotels" class="form-control"> <option>Food / breakfast /Lunch /Dinner </option> <option>Dessert Safari </option> <option>Ferrari World </option> <option>Dubai City tour </option> </select> </div> </div> <div id="service_div"></div> <div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Add another service </label> <div class="col-md-6 col-sm-6 col-xs-12"> <button id="add_service" type="button" class="btn btn-warning" name="button">Add More Services</button> </div> </div> </div></div>');
-              });
-            });
-            </script>
-            <!-- /add day -->
-            <!-- add hotels -->
+
+            <!-- add Hotel -->
             <script>
             $(document).ready(function(){
               $('#add_hotel').click(function(){
                   console.log("click to add day div");
-                  $.post( "<?php echo base_url(); ?>" + "index.php/quotation/add_hotel", function( data ) {
-                    $("#id_cidate").val('');
-                    $("#id_codate").val('');
-                    $("#id_pax").val('');
-                    $( "#hotel_added_res" ).append( data );
+                  var qid = $("#id_qid").val();
+                  var city_id = $('#cities').val();
+                  // var city_area_id = $('#id_city_areaid').val();
+                  var cidate = $('#id_cidate').val();
+                  var codate = $('#id_codate').val();
+                  var pax = $('#id_pax').val();
+                  var hotel_id = $('#hotels').val();
+                  // var room_type_id = $('#id_room_typeid').val();
+                  var postData = {
+                      'qid' : qid,
+                      'city_id' : city_id,
+                      'cidate' : cidate,
+                      'codate' : codate,
+                      'pax' : pax,
+                      'hotel_id' : hotel_id
+                    };
+                  $.ajax({
+                       type: "POST",
+                       url: "<?php echo base_url(); ?>" + "index.php/quotation/add_hotel",
+                       data: postData , //assign the var here
+                       success: function(data){
+                         $('#hotels').val('');
+                         $( "#hotel_added_res" ).append( data );
+                       }
                   });
               });
             });
             </script>
             <!-- /add hotels -->
+            <!-- add Dayplan -->
+            <script>
+            $(document).ready(function(){
+              $('#id_add_dayplan').click(function(){
+                  console.log("sending data to add day plan");
+                  var qid = $("#id_qid").val();
+                  var dayplan_date = $('#id_dayplan_date').val();
+                  var daytime_id = $('#id_daytime').val();
+                  // var services_type_id = $('#id_service_type').val();
+                  var services_id = $('#textbx').val();
+
+                  var postData = {
+                      'qid' : qid,
+                      'dayplan_date' : dayplan_date,
+                      'daytime_id' : daytime_id,
+                      // 'services_type_id' : services_type_id,
+                      'services_id' : services_id
+                    };
+                    console.log(postData);
+                  $.ajax({
+                       type: "POST",
+                       url: "<?php echo base_url(); ?>" + "index.php/quotation/add_dayplan",
+                       data: postData , //assign the var here
+                       success: function(res){
+                         $('#id_dayplan_date').val('');
+                         $('#id_daytime').val('');
+                         $('#id_service').val('');
+                         $( "#services_added_res" ).append( res );
+                       }
+                  });
+              });
+            });
+            </script>
+            <!-- /add Dayplan -->
+
+            <!-- add values of checkbox in input -->
+            <script type="text/javascript">
+            $(document).ready(function(){
+              $('.chkbx').click(function(){
+                  var text = "";
+                  $('.chkbx:checked').each(function(){
+                      text += $(this).val()+',';
+                  });
+                  text = text.substring(0,text.length-1);
+
+                  $('#textbx').val(text);
+              });
+            }
+            );
+
+            </script>
+            <!-- /add values of checkbox in input -->
+            <!-- get rooms on select of city -->
+            <script>
+              $(document).ready(function() {
+                $("#hotels").change(function(){
+                  // $("#id_room_type").find("option:gt(0)").remove();// remove all options except first
+                    var d= $("#hotels").val();
+                    console.log(d);
+                    jQuery.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + "index.php/quotation/get_rooms/"+d,
+                        dataType: 'json',
+                        //data: d,
+                        success: function(res) {
+                          $.each(res,function(key,val){
+                              $.each(val,function(index,x){
+                                 $('#id_room_type').append('<div class="col-md-2 text-center"><label><input type="checkbox" name="room[]" value="'+x['id']+'"><br/>'+x['room_type']+'<p class="text-danger">'+x['room_price']+'&nbsp;AED</p></label></div>');
+                            });
+                        });
+                        }
+                    });
+                });
+              });
+            </script>
+            <!-- /get rooms on select of city -->
+            '
+
 
         </body>
         </html>
