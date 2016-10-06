@@ -1,5 +1,5 @@
 
-
+<?php $total_price = 0; ?>
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -126,7 +126,13 @@
                                   <td><?=$value->no_pax?></td>
                                   <td><?=$value->cin_date?></td>
                                   <td><?=$value->cout_date?></td>
-                                  <td>$50.00</td>
+                                  <td><?php $r = $this->quotation_model->quotation_hotel_room_price($quotation_info[0]->id)[0];
+                                  foreach ($r as $key => $value) {
+                                    // $total = $value * $value->no_pax;
+                                    $hotel_price = $value;
+                                    echo $value . " AED";
+                                  }
+                                  ?></td>
                                 </tr>
                               <?php
                               }
@@ -170,7 +176,16 @@
                                   <td><b><?=$value->dayplan_date?></b></td>
                                   <td><?=$this->common->get_time_by_id($value->daytime_id)?></td>
                                   <td><?=$this->common->get_service_name_by_id_str($value->services_id)?></td>
-                                  <td>$50.00</td>
+                                  <td><?php
+                                  $sprice = $this->quotation_model->get_service_ids_by_qid_date($quotation_info[0]->id,$value->dayplan_date)[0] ;
+                                  foreach ($sprice as $key => $val) {
+                                    $s_price = $this->quotation_model->get_price_by_service_ids($val)[0];
+                                    foreach ($s_price as $key => $v) {
+                                      $service_price = $v;
+                                      echo $v;
+                                    }
+                                  }
+                                   ?></td>
                                 </tr>
                               <?php
                               }
@@ -202,19 +217,20 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Subtotal:</th>
-                                  <td>$250.30</td>
+                                  <td><?php                                  echo $total_price = $hotel_price + $service_price;
+                                  ?> AED</td>
                                 </tr>
                                 <tr>
                                   <th>Tax (9.3%)</th>
-                                  <td>$10.34</td>
+                                  <td><?php echo $tax = ceil($total_price * 9.3)/100; ?> AED</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                   <th>Shipping:</th>
                                   <td>$5.80</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                   <th>Total:</th>
-                                  <td>$265.24</td>
+                                  <td><?=$total_price+$tax?> AED</td>
                                 </tr>
                               </tbody>
                             </table>

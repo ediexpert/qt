@@ -188,5 +188,21 @@ class Quotation_Model extends CI_Model {
       // echo '<div class="panel panel-default"><div class="panel-body"><table class="table table-hover"><tr><th>date</th><th>Time</th><th>Services</th></tr><tr><td>date</td><td>Time</td><td>Services</td></tr></table></div></div>';
     }
 
+
+    function quotation_hotel_room_price($id){
+      $query = "select max(room_price) FROM tbl_room where id in (select room_type_id from tbl_quot_hotel where quotation_id = '$id')";
+      $q = $this->db->query($query);
+      return $q->result();
+    }
+    function get_service_ids_by_qid_date($qid,$dt){
+      $query = "select group_concat(services_id) FROM tbl_dayplan WHERE quotation_id = '$qid' AND dayplan_date = '$dt'";
+      $q = $this->db->query($query);
+      return $q->result();
+    }
+    function get_price_by_service_ids($ids){
+      $query = "select sum(service_price) FROM tbl_services WHERE id in ($ids)";
+      $q = $this->db->query($query);
+      return $q->result();
+    }
 }
 ?>
