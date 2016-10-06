@@ -28,17 +28,44 @@ class Quotation extends CI_Controller {
 				  redirect('/user/signin', 'refresh');
 	    	}
 			 $this->load->model('common');
+			 $this->load->model('service');
 			 $this->load->model('quotation_model');
 
 	 }
 	public function index()
 	{
 		$data['quotations'] = $this->quotation_model->get_all_quotations();
+
 		$this->load->view('quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('quotation',$data);
 		$this->load->view('quotation_foot');
 	}
+
+
+	public function view($id){
+		$data['company'] = $this->common->company_info(1);
+		$data['quotation_info'] = $this->quotation_model->get_quotation_data($id);
+		$data['hotel']=$this->quotation_model->get_quotation_hotel($id);
+		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
+		$data['txr']=$this->quotation_model->get_quotation_txr($id);
+		$this->load->view('quotation_head');
+		$this->load->view('side_menu');
+		$this->load->view('view_quotation',$data);
+	}
+
+	function itenary($id){
+		$data['company'] = $this->common->company_info(1);
+		$data['quotation_info'] = $this->quotation_model->get_quotation_data($id);
+		$data['hotel']=$this->quotation_model->get_quotation_hotel($id);
+		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
+		$data['txr']=$this->quotation_model->get_quotation_txr($id);
+		$this->load->view('quotation_head');
+		$this->load->view('side_menu');
+		$this->load->view('itenary', $data);
+	}
+
+
 	public function id($id)
 	{
 		$data['quot'] = $id;
@@ -95,6 +122,47 @@ class Quotation extends CI_Controller {
 		$res = $this->quotation_model->add_dayplan();
 		echo json_encode($res);
 	}
+
+
+	public function add_txr_type(){
+		$res = $this->quotation_model->add_txr_type();
+		echo json_encode($res);
+	}
+
+	// function pdf($id){
+	// 	$this->load->helper(array('dompdf', 'file'));
+  //    // page info here, db calls, etc.
+  //   //  $html = $this->load->view('controller/viewfile', $data, true);
+	// 	$this->load->helper('file');
+	// 	$data['company'] = $this->common->company_info(1);
+ // 		$data['quotation_info'] = $this->quotation_model->get_quotation_data($id);
+ // 		$data['hotel']=$this->quotation_model->get_quotation_hotel($id);
+ // 		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
+ // 		$data['txr']=$this->quotation_model->get_quotation_txr($id);
+	//
+	// 	$html = $this->load->view('quotation_head');
+ // 		$html .=$this->load->view('side_menu');
+ // 		$html .=$this->load->view('view_quotation',$data);
+  //   //  pdf_create($html, 'filename'); or
+	//
+  //    $data = pdf_create($html, '', false);
+  //    write_file('name', $data);
+  //    //if you want to write it to disk and/or send it as an attachment
+	// }
+
+
+	function pdf($id){
+		$data['company'] = $this->common->company_info(1);
+		$data['quotation_info'] = $this->quotation_model->get_quotation_data($id);
+		$data['hotel']=$this->quotation_model->get_quotation_hotel($id);
+		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
+		$data['txr']=$this->quotation_model->get_quotation_txr($id);;
+		$this->load->view('quotation_head');
+		$this->load->view('side_menu');
+		$this->load->view('view_quotation',$data);
+	}
+
+
 
 }
 

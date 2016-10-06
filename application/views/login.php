@@ -28,7 +28,7 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form id="loginForm" action="<?php echo base_url(); ?>index.php/user/login" method="get">
+            <form id="loginForm" action="<?php echo base_url(); ?>index.php/user/login" method="POST">
               <h1>Quotation Manager</h1>
               <?php
                 if(isset($err)){

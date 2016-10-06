@@ -128,6 +128,14 @@ class Quotation_Model extends CI_Model {
       return $query->result();
     }
 
+    function get_quotation_txr($id){
+      $search_query = array(
+        'quotation_id' => $id
+      );
+      $query = $this->db->get_where('tbl_quot_txr_type',$search_query);
+      return $query->result();
+    }
+
 
     function add_hotel(){
       $insert_data = array(
@@ -137,8 +145,8 @@ class Quotation_Model extends CI_Model {
         'cin_date' => $_REQUEST['cidate'],
         'cout_date' => $_REQUEST['codate'],
         'no_pax' => $_REQUEST['pax'],
-        'hotel_id' => $_REQUEST['hotel_id']
-        // 'room_type_id' => $_REQUEST['qname'],
+        'hotel_id' => $_REQUEST['hotel_id'],
+        'room_type_id' => $_REQUEST['room_id'],
       );
       if($this->db->insert('tbl_quot_hotel',$insert_data)){
         echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>'.$_REQUEST['city_id'].'</td><td>'.$_REQUEST['hotel_id'].'</td><td>'.$_REQUEST['cidate'].'</td><td>'.$_REQUEST['codate'].'</td><td>Night(s)</td><td>'.$_REQUEST['pax'].'</td><td>Minor(s)</td> </tr> </table> </div> </div>';
@@ -160,6 +168,20 @@ class Quotation_Model extends CI_Model {
       );
       if($this->db->insert('tbl_dayplan',$insert_data)){
         echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th></tr><td>'.$_REQUEST['dayplan_date'].'</td><td>'.$_REQUEST['daytime_id'].'</td><td>'.$_REQUEST['services_id'].'</td></tr> </table> </div> </div>';
+      }else{
+        echo "Unable to add data due to " . $this->db->error();
+      }
+      // echo '<div class="panel panel-default"><div class="panel-body"><table class="table table-hover"><tr><th>date</th><th>Time</th><th>Services</th></tr><tr><td>date</td><td>Time</td><td>Services</td></tr></table></div></div>';
+    }
+
+
+    function add_txr_type(){
+      $insert_data = array(
+        'quotation_id' => $_REQUEST['qid'],
+        'txr_type' => $_REQUEST['txr_type']
+      );
+      if($this->db->insert('tbl_quot_txr_type',$insert_data)){
+        echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>id</th><th>transfer type</th></tr><td>'.$_REQUEST['qid'].'</td><td>'.$_REQUEST['txr_type'].'</td></tr> </table> </div> </div>';
       }else{
         echo "Unable to add data due to " . $this->db->error();
       }

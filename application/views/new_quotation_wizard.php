@@ -189,6 +189,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Options Available
                                 </label>
                                 <div id="id_room_type" class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="text" id="id_room_types" name="room_types" value="">
                                   <!-- room will come here -->
                                 </div>
                               </div>
@@ -332,8 +333,8 @@
                       <div id="step-4">
                         <h2 class="StepTitle text-center">Transfer(s)</h2>
                         <form class="form-horizontal form-label-left">
-
-                            <div class="form-group">
+                            <div id="txr_type_res"></div>
+                            <div id="txr_type_input" class="form-group">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select Transfer Type<span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -347,6 +348,19 @@
                                   ?>
 
                                 </select>
+                              </div>
+
+                            </div>
+
+                            <div class="form-group" id="id_txt_save_div">
+                              <div class="text-center col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" id="id_txr_save" class="btn btn-primary" name="button">Save</button>
+                              </div>
+                            </div>
+                            <div class="form-group" id="id_view_quotation_div" style="display:none">
+                              <div class="text-center col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" id="" class="btn btn-primary" name="button">View Quotation</button>
+                                  <button type="button" id="" class="btn btn-primary" name="button">View Iterina</button>
                               </div>
                             </div>
 
@@ -573,6 +587,19 @@
                   var codate = $('#id_codate').val();
                   var pax = $('#id_pax').val();
                   var hotel_id = $('#hotels').val();
+                  // var x =  $('input[name="room[]"]').val();;
+
+                  // var arr = [];
+                  // $(".hotel_room_chkbx:checked").each(function () {
+                  //     arr.push($(this).val());
+                  // });
+                  var text = "";
+                  $('.hotel_room_chkbx:checked').each(function(){
+                      text += $(this).val()+',';
+                  });
+                  text = text.substring(0,text.length-1);
+                    console.log(text);
+                  var room_ids = text;
                   // var room_type_id = $('#id_room_typeid').val();
                   var postData = {
                       'qid' : qid,
@@ -580,8 +607,11 @@
                       'cidate' : cidate,
                       'codate' : codate,
                       'pax' : pax,
-                      'hotel_id' : hotel_id
+                      'hotel_id' : hotel_id,
+                      'room_id' : room_ids
                     };
+
+                    console.log(postData);
                   $.ajax({
                        type: "POST",
                        url: "<?php echo base_url(); ?>" + "index.php/quotation/add_hotel",
@@ -662,7 +692,7 @@
                         success: function(res) {
                           $.each(res,function(key,val){
                               $.each(val,function(index,x){
-                                 $('#id_room_type').append('<div class="col-md-2 text-center"><label><input type="checkbox" name="room[]" value="'+x['id']+'"><br/>'+x['room_type']+'<p class="text-danger">'+x['room_price']+'&nbsp;AED</p></label></div>');
+                                 $('#id_room_type').append('<div class="col-md-2 text-center"><label><input class="hotel_room_chkbx" type="checkbox" name="room[]" value="'+x['id']+'"><br/>'+x['room_type']+'<p class="text-danger">'+x['room_price']+'&nbsp;AED</p></label></div>');
                             });
                         });
                         }
@@ -671,7 +701,35 @@
               });
             </script>
             <!-- /get rooms on select of city -->
-            '
+            <!-- add transfer type -->
+            <script>
+            $(document).ready(function(){
+              $('#id_txr_save').click(function(){
+                  console.log("sending data to add day plan");
+                  var qid = $("#id_qid").val();
+                  var txr_type = $('#id_txr_type').val();
+
+                  var postData = {
+                      'qid' : qid,
+                      'txr_type' : txr_type
+                    };
+                    console.log(postData);
+                  $.ajax({
+                       type: "POST",
+                       url: "<?php echo base_url(); ?>" + "index.php/quotation/add_txr_type",
+                       data: postData , //assign the var here
+                       success: function(res){
+                         $('#txr_type_input').hide();
+                         $('#id_txt_save_div').hide();
+                         $('#id_view_quotation_div').show();
+                         $( "#txr_type_res" ).append(res);
+
+                       }
+                  });
+              });
+            });
+            </script>
+            <!-- / add transfer type -->
 
 
         </body>

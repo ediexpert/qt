@@ -4,7 +4,7 @@
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span><?php if(isset( $title))echo $title; ?></span></a>
+            <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span><?php if(isset( $title)){echo $title;} else{ echo "Quotations";} ?></span></a>
           </div>
 
           <div class="clearfix"></div>
@@ -12,11 +12,11 @@
           <!-- menu profile quick info -->
           <div class="profile">
             <div class="profile_pic">
-              <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+              <img src="<?php echo base_url(); ?>images/img.jpg" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
               <span>Welcome,</span>
-              <h2>John Doe</h2>
+              <h2><?php echo  (isset($user) )? $user : "Imran";?></h2>
             </div>
           </div>
           <!-- /menu profile quick info -->
@@ -68,7 +68,7 @@
   <ul class="nav navbar-nav navbar-right">
     <li class="">
       <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-        <img src="images/img.jpg" alt="">John Doe
+        <img src="<?php echo base_url(); ?>images/img.jpg" alt=""><?php echo  (isset($user) )? $user : "Imran";?>
         <span class=" fa fa-angle-down"></span>
       </a>
       <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -92,7 +92,7 @@
       <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
         <li>
           <a>
-            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span class="image"><img src="<?php echo base_url(); ?>images/img.jpg" alt="Profile Image" /></span>
             <span>
               <span>John Smith</span>
               <span class="time">3 mins ago</span>
@@ -104,7 +104,7 @@
         </li>
         <li>
           <a>
-            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span class="image"><img src="<?php echo base_url(); ?>images/img.jpg" alt="Profile Image" /></span>
             <span>
               <span>John Smith</span>
               <span class="time">3 mins ago</span>
@@ -116,7 +116,7 @@
         </li>
         <li>
           <a>
-            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span class="image"><img src="<?php echo base_url(); ?>images/img.jpg" alt="Profile Image" /></span>
             <span>
               <span>John Smith</span>
               <span class="time">3 mins ago</span>
@@ -128,7 +128,7 @@
         </li>
         <li>
           <a>
-            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+            <span class="image"><img src="<?php echo base_url(); ?>images/img.jpg" alt="Profile Image" /></span>
             <span>
               <span>John Smith</span>
               <span class="time">3 mins ago</span>

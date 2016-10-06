@@ -63,6 +63,7 @@
                           <th>PAX</th>
                           <th>Contact</th>
                           <th>Quotation Date &amp; Time</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
 
@@ -80,6 +81,10 @@
                           <td><?=$value->pax?></td>
                           <td><?=$value->contact?></td>
                           <td><?=$value->created_on?></td>
+                          <td>
+                            <button type="button" value="<?=$value->id?>" onclick="window.location='quotation/view/<?=$value->id?>'" class="view_quot btn btn-primary" name="button">View</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location='quotation/quot/<?=$value->id?>'" name="button">Edit</button>
+                          </td>
                         </tr>
                         <?php
                       }

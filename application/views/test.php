@@ -1,25 +1,25 @@
-<!-- get rooms on select of city -->
-<script>
-  $(document).ready(function() {
-    $("#hotels").change(function(){
-      // $("#id_room_type").find("option:gt(0)").remove();// remove all options except first
-        var d= $("#hotels").val();
-        console.log(d);
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/quotation/get_rooms/"+d,
-            dataType: 'json',
-            //data: d,
-            success: function(res) {
-              $.each(res,function(key,val){
-                  $.each(val,function(index,x){
-                     $('#id_room_type').append('<div class="col-md-2 text-center"><label><input type="checkbox" name="room[]" value="'+x['id']+'">'+x['room_type']+'<p class="text-danger">'+x['room_price']+'</p></label></div>');
-                });
-            });
-            }
-        });
-    });
-  });
-</script>
-<!-- /get rooms on select of city -->
-'
+<?php
+require 'pdfcrowd.php';
+
+try
+{
+    // create an API client instance
+    $client = new Pdfcrowd("imranbajwa", "3e73bf6dfa56e27b91a04c31b39cc425");
+
+    // convert a web page and store the generated PDF into a $pdf variable
+    $pdf = $client->convertURI('http://127.0.0.1/quotations/index.php/quotation/view/1');
+
+    // set HTTP response headers
+    header("Content-Type: application/pdf");
+    header("Cache-Control: max-age=0");
+    header("Accept-Ranges: none");
+    header("Content-Disposition: attachment; filename=\"google_com.pdf\"");
+
+    // send the generated PDF
+    echo $pdf;
+}
+catch(PdfcrowdException $why)
+{
+    echo "Pdfcrowd Error: " . $why;
+}
+?>

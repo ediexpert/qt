@@ -13,14 +13,17 @@ class Transfers extends CI_Controller{
   public function index(){
     $data['title'] = 'Transfers | Quoataion Manager';
     $data['heading'] = 'Transfers';
-    $data['cities'] = $this->common->get_all_transfers();
+    $data['transfers'] = $this->common->get_all_transfers();
+    $data['ttype'] = $this->common->get_all_transfer_types();
+    $data['areas'] = $this->common->get_all_city_areas();
     $this->load->view('head',$data);
     $this->load->view('side_menu',$data);
     $this->load->view('transfers',$data);
     $this->load->view('quotation_foot',$data);
   }
   public function add(){
-
+    $res = $this->common->add_transfers();
+    echo json_encode($res);
   }
   public function remove(){
 

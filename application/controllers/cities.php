@@ -16,20 +16,35 @@ class Cities extends CI_Controller{
     $this->load->view('head',$data);
     $this->load->view('side_menu',$data);
     $this->load->view('cities',$data);
-    $this->load->view('quotation_foot',$data);
   }
   public function add(){
-
+    $res = $this->common->add_city();
+    echo json_encode($res);
   }
+
+
   public function remove(){
 
   }
   public function areas(){
     $data['title'] = 'City Area(s)';
-    $data['cities'] = $this->common->get_all_city_areas();
+    $data['cities'] = $this->common->get_all_cities();
+    $data['areas'] = $this->common->get_all_city_areas();
     $this->load->view('head',$data);
     $this->load->view('side_menu',$data);
     $this->load->view('areas',$data);
-    $this->load->view('quotation_foot',$data);
+    // $this->load->view('quotation_foot',$data);
   }
+  public function add_area(){
+    $res = $this->common->add_area();
+    echo json_encode($res);
+  }
+
+  public function get_area_list($id)	{
+                $data['areas'] = $this->common->get_areas_by_city($id);
+          echo json_encode($data);
+  }
+
+
+
 }

@@ -4,19 +4,20 @@ class Dashboard extends CI_Controller{
     parent::__construct();
     $this->load->helper('url');
     $this->load->library('session');
-    if( !$this->session->userdata('logged_in')  ){
-      $this->load->view('login');
-    }
     $this->load->database();
+    $this->load->model('common');
+    $this->load->model('quotation_model');
   }
 
   public function index(){
       if( !$this->session->userdata('logged_in')  ){
-        redirect('./');
+        redirect('user/signin', 'referesh');
       }
-    $this->load->view('dashboard_head');
-		$this->load->view('side_menu');
-		$this->load->view('dashboard');
-		$this->load->view('dashboard_foot');
+      $data['quotations'] = $this->quotation_model->get_all_quotations();
+
+  		$this->load->view('quotation_head');
+  		$this->load->view('side_menu');
+  		$this->load->view('quotation',$data);
+  		$this->load->view('quotation_foot');
   }
 }

@@ -12,24 +12,19 @@ class Hotels extends CI_Controller{
   }
   public function index(){
     $data['title'] = 'Hotels | Quoataion Manager';
-    $data['cities'] = $this->common->get_all_hotels();
+    $data['cities'] = $this->common->get_all_cities();
+    $data['hotels'] = $this->common->get_all_hotels();
     $this->load->view('head',$data);
     $this->load->view('side_menu',$data);
     $this->load->view('hotels',$data);
-    $this->load->view('quotation_foot',$data);
+    // $this->load->view('quotation_foot',$data);
   }
   public function add(){
-
+    $res = $this->common->add_hotel();
+    echo json_encode($res);
   }
   public function remove(){
 
   }
-  public function areas(){
-    $data['title'] = 'City Area(s)';
-    $data['cities'] = $this->common->get_all_city_areas();
-    $this->load->view('head',$data);
-    $this->load->view('side_menu',$data);
-    $this->load->view('areas',$data);
-    $this->load->view('quotation_foot',$data);
-  }
+
 }

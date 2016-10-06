@@ -23,9 +23,9 @@ class User extends CI_Controller {
 			 parent::__construct();
 			 $this->load->helper('url');
 			 $this->load->library('session');
-			 if ( ! $this->session->userdata('logged_in')){
-				  redirect('/user/signin', 'refresh');
-	    	}
+			//  if ( ! $this->session->userdata('logged_in')){
+			// 	  redirect('/user/signin', 'refresh');
+	    // 	}
 			 $this->load->database();
 			 $this->load->model('user_model');
 			 $this->load->model('common');
@@ -46,24 +46,16 @@ class User extends CI_Controller {
 
 		$res =$this->user_model->login();
 		if($res === false){
-
-			redirect('/user/signin', 'refresh');
+			$data['err'] = "Username or Password is wrong!";
+			$this->load->view('login',$data);
+		}else{
+			redirect('dashboard', 'refresh');
 		}
-		redirect('/user/dashboard', 'refresh');
+
 
 	}
 
-	function dashboard(){
-		// $this->load->view('dashboard_head');
-		// $this->load->view('side_menu');
-		// $this->load->view('dashboard');
-		// $this->load->view('dashboard_foot');
-		$data['quotations'] = $this->quotation_model->get_all_quotations();
-		$this->load->view('quotation_head');
-		$this->load->view('side_menu');
-		$this->load->view('quotation',$data);
-		$this->load->view('quotation_foot');
-	}
+	
 
 	function logout(){
 		 $this->session->unset_userdata('logged_in');
