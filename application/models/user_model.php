@@ -56,7 +56,8 @@ class User_Model extends CI_Model {
         $sess_array = array(
           'id' => $row->id,
            'username' => $row->username,
-             'name' => $row->name
+             'name' => $row->name,
+             'is_admin' => $row->is_admin
          );
         }
        $this->session->set_userdata('logged_in', $sess_array);
@@ -75,6 +76,14 @@ class User_Model extends CI_Model {
 
       // return $query->result();
       // return $qry->result();
+    }
+
+    public function is_admin(){
+         $r = $this->session->userdata('logged_in');
+        return $r['is_admin'];
+        // foreach ($r as $key => $value) {
+        //   return $value->is_admin;
+        // }
     }
 
 }

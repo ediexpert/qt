@@ -38,7 +38,8 @@ class Quotation_Model extends CI_Model {
     // }
 
     function get_all_quotations(){
-      $query = $this->db->get('tbl_quotation');
+      $q = array('is_active' => '1');
+      $query = $this->db->get_where('tbl_quotation', $q);
       if( $query->num_rows() > 0 ) {
         return $query->result();
       } else {
@@ -52,7 +53,7 @@ class Quotation_Model extends CI_Model {
   			'quot_name' => $_REQUEST['qname'],
   			'arrival_date' => $this->common->date_format($_REQUEST['cidate']),
   			'departure_date' => $this->common->date_format($_REQUEST['codate']),
-  			'contact' => $_REQUEST['qname'],
+  			'contact' => '',
   			'email' => $_REQUEST['email'],
   			'created_by' => $_REQUEST['user'],
         'pax' => $_REQUEST['pax'],
@@ -203,6 +204,17 @@ class Quotation_Model extends CI_Model {
       $query = "select sum(service_price) FROM tbl_services WHERE id in ($ids)";
       $q = $this->db->query($query);
       return $q->result();
+    }
+    function delete(){
+      // $update_data = array(
+      //   'id' => $_REQUEST['id'],
+      //   'is_active' => '0'
+      // );
+      $this->db->set('is_active', '0');
+      $this->db->where('id', $_REQUEST['id']);
+    $this->db->update('tbl_quotation'); // give
+      //$this->db->replace('tbl_quotation', $update_data);
+      return $this->db->affected_rows() > 0 ? true:false;
     }
 }
 ?>

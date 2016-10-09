@@ -233,7 +233,7 @@
                           </div>
                           <div id="hotels_div"></div>
 
-                          <button type="button" id="add_hotel" class="btn btn-primary" name="button">Add Another Hotel</button>
+                          <button type="button" id="add_hotel" class="btn btn-primary" name="button">Save</button>
 
 
                         </form>
@@ -318,14 +318,14 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Add another service
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button id="add_service" type="button" class="btn btn-warning" name="button">Add More Services</button>
+                                    <!-- <button id="add_service" type="button" class="btn btn-warning" name="button">Add More Services</button> -->
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div id="days_div"></div>
 
-                          <button type="button" id="id_add_dayplan" class="btn btn-primary" name="button">Add Another Day</button>
+                          <button type="button" id="id_add_dayplan" class="btn btn-primary" name="button">Save &amp; Add Another Dayplan</button>
 
 
                         </form>

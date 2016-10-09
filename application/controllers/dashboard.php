@@ -6,18 +6,20 @@ class Dashboard extends CI_Controller{
     $this->load->library('session');
     $this->load->database();
     $this->load->model('common');
+    $this->load->model('user_model');
     $this->load->model('quotation_model');
+    if( !$this->session->userdata('logged_in')  ){
+      redirect('user/signin', 'referesh');
+    }
   }
 
   public function index(){
-      if( !$this->session->userdata('logged_in')  ){
-        redirect('user/signin', 'referesh');
-      }
-      $data['quotations'] = $this->quotation_model->get_all_quotations();
-
-  		$this->load->view('quotation_head');
-  		$this->load->view('side_menu');
-  		$this->load->view('quotation',$data);
-  		$this->load->view('quotation_foot');
+      redirect('quotation/', 'refresh');
+      // $data['quotations'] = $this->quotation_model->get_all_quotations();
+      // $data['isAdmin'] = $this->user_model->is_admin();
+  		// $this->load->view('quotation_head');
+  		// $this->load->view('side_menu');
+  		// $this->load->view('quotation',$data);
+  		// $this->load->view('quotation_foot');
   }
 }

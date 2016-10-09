@@ -30,16 +30,18 @@ class Quotation extends CI_Controller {
 			 $this->load->model('common');
 			 $this->load->model('service');
 			 $this->load->model('quotation_model');
+			 $this->load->model('user_model');
 
 	 }
 	public function index()
 	{
 		$data['quotations'] = $this->quotation_model->get_all_quotations();
-
+		$data['isAdmin'] = $this->user_model->is_admin();
 		$this->load->view('quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('quotation',$data);
-		$this->load->view('quotation_foot');
+		//$this->load->view('quotation_foot');
+
 	}
 
 
@@ -162,7 +164,11 @@ class Quotation extends CI_Controller {
 		$this->load->view('view_quotation',$data);
 	}
 
+	function delete(){
+		$res = $this->quotation_model->delete();
+		echo json_encode($res);
 
+	}
 
 }
 
