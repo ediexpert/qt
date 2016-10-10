@@ -10,22 +10,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping structure for table db_quotation.auth_data
-CREATE TABLE IF NOT EXISTS `auth_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `auth_key` varchar(255) NOT NULL,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `value` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- Dumping data for table db_quotation.auth_data: ~1 rows (approximately)
-/*!40000 ALTER TABLE `auth_data` DISABLE KEYS */;
-INSERT INTO `auth_data` (`id`, `auth_key`, `created_on`, `value`) VALUES
-	(1, 'Allah o akbar', '2016-09-14 00:39:53', 'dbf63263cdef81556c7021a5ac065e62');
-/*!40000 ALTER TABLE `auth_data` ENABLE KEYS */;
-
-
 -- Dumping structure for table db_quotation.tbl_city
 CREATE TABLE IF NOT EXISTS `tbl_city` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -505,71 +489,6 @@ INSERT INTO `tbl_user` (`id`, `username`, `name`, `pass`, `is_active`, `created_
 INSERT INTO `tbl_user` (`id`, `username`, `name`, `pass`, `is_active`, `created_on`, `is_admin`) VALUES
 	(2, 'user', 'User', '123', 1, '2016-10-09 11:26:27', 0);
 /*!40000 ALTER TABLE `tbl_user` ENABLE KEYS */;
-
-
--- Dumping structure for table db_quotation.testapi
-CREATE TABLE IF NOT EXISTS `testapi` (
-  `userName` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
--- Dumping data for table db_quotation.testapi: ~4 rows (approximately)
-/*!40000 ALTER TABLE `testapi` DISABLE KEYS */;
-INSERT INTO `testapi` (`userName`, `password`, `id`, `createdAt`, `updatedAt`) VALUES
-	(NULL, NULL, 1, '2016-10-01 18:03:20', '2016-10-01 18:09:07');
-INSERT INTO `testapi` (`userName`, `password`, `id`, `createdAt`, `updatedAt`) VALUES
-	(NULL, NULL, 2, '2016-10-01 18:04:47', '2016-10-01 18:04:47');
-INSERT INTO `testapi` (`userName`, `password`, `id`, `createdAt`, `updatedAt`) VALUES
-	(NULL, NULL, 3, '2016-10-01 18:10:08', '2016-10-01 18:10:08');
-INSERT INTO `testapi` (`userName`, `password`, `id`, `createdAt`, `updatedAt`) VALUES
-	('imran', '123', 4, '2016-10-01 18:12:26', '2016-10-01 18:12:26');
-/*!40000 ALTER TABLE `testapi` ENABLE KEYS */;
-
-
--- Dumping structure for table db_quotation.user
-CREATE TABLE IF NOT EXISTS `user` (
-  `userName` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
-
--- Dumping data for table db_quotation.user: ~13 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	(NULL, NULL, NULL, 1, '2016-10-01 22:54:31', '2016-10-01 22:54:31');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('imran', '123', 'imran@imran.com', 2, '2016-10-01 22:57:10', '2016-10-01 22:57:10');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('test', 'test', 'test', 3, '2016-10-03 16:22:25', '2016-10-03 16:22:25');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('test', 'jakss', 'test', 4, '2016-10-03 16:23:18', '2016-10-03 16:23:18');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('nasir', 'asnsas', 'nasir', 5, '2016-10-03 16:25:44', '2016-10-03 16:25:44');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('anasn', 'mk', 'knn', 6, '2016-10-03 16:26:09', '2016-10-03 16:26:09');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('asjbasjk', 'kjbjkb', 'bhb', 7, '2016-10-03 16:30:49', '2016-10-03 16:30:49');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('sadasd', 'asdasd', 'asdasd', 8, '2016-10-03 16:46:06', '2016-10-03 16:46:06');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('asnasn', 'n', 'jnjnj', 9, '2016-10-03 16:48:52', '2016-10-03 16:48:52');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('asjasjk', 'jkbjk', 'jbjkb', 10, '2016-10-03 16:49:26', '2016-10-03 16:49:26');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('Mohammed', '1234', 'mohd@gail.com', 11, '2016-10-03 16:50:35', '2016-10-03 16:50:35');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('Imranbajwa', 'nsja', 'imranka', 12, '2016-10-03 16:54:50', '2016-10-03 16:54:50');
-INSERT INTO `user` (`userName`, `password`, `email`, `id`, `createdAt`, `updatedAt`) VALUES
-	('malik', 'jbj', 'asbdja', 13, '2016-10-03 16:58:09', '2016-10-03 16:58:09');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
