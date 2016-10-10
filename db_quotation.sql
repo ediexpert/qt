@@ -116,9 +116,9 @@ CREATE TABLE IF NOT EXISTS `tbl_dayplan` (
   CONSTRAINT `tbl_dayplan_ibfk_1` FOREIGN KEY (`quotation_id`) REFERENCES `tbl_quotation` (`id`),
   CONSTRAINT `tbl_dayplan_ibfk_2` FOREIGN KEY (`daytime_id`) REFERENCES `tbl_daytime` (`id`),
   CONSTRAINT `tbl_dayplan_ibfk_3` FOREIGN KEY (`services_type_id`) REFERENCES `tbl_services_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_dayplan: ~15 rows (approximately)
+-- Dumping data for table db_quotation.tbl_dayplan: ~17 rows (approximately)
 /*!40000 ALTER TABLE `tbl_dayplan` DISABLE KEYS */;
 INSERT INTO `tbl_dayplan` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `services_type_id`, `services_id`) VALUES
 	(13, 2, '2016-09-13', 1, 1, '1');
@@ -150,6 +150,10 @@ INSERT INTO `tbl_dayplan` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `
 	(26, 5, '2016-09-20', 2, 1, '1,2,3');
 INSERT INTO `tbl_dayplan` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `services_type_id`, `services_id`) VALUES
 	(27, 5, '2016-09-21', 1, 1, '1,2,3,4');
+INSERT INTO `tbl_dayplan` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `services_type_id`, `services_id`) VALUES
+	(28, 15, '2016-10-22', 1, 1, '4');
+INSERT INTO `tbl_dayplan` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `services_type_id`, `services_id`) VALUES
+	(29, 15, '2016-10-22', 1, 1, '1,3,5');
 /*!40000 ALTER TABLE `tbl_dayplan` ENABLE KEYS */;
 
 
@@ -219,41 +223,46 @@ CREATE TABLE IF NOT EXISTS `tbl_quotation` (
   `created_by` int(11) DEFAULT NULL,
   `pax` int(11) DEFAULT NULL,
   `minor` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `FK_tbl_quotation_tbl_user` (`created_by`),
   CONSTRAINT `FK_tbl_quotation_tbl_user` FOREIGN KEY (`created_by`) REFERENCES `tbl_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_quotation: ~14 rows (approximately)
+-- Dumping data for table db_quotation.tbl_quotation: ~16 rows (approximately)
 /*!40000 ALTER TABLE `tbl_quotation` DISABLE KEYS */;
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(1, 'imran quote', '2016-09-10', '2016-09-15', '123456', NULL, '2016-09-10 00:26:54', 1, NULL, NULL);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(2, 'Test Quote', '2016-09-13', '2016-09-21', '1221212', NULL, '2016-09-13 20:10:41', 1, NULL, NULL);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(3, 'asskj', '2016-09-14', '2016-09-17', 'asskj', 'sanja@gg.com', '2016-09-14 20:37:58', 1, 6, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(4, 'asskj', '2016-09-14', '2016-09-17', 'asskj', 'sanja@gg.com', '2016-09-14 20:39:15', 1, 6, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(5, 'Ramlal ind', '2016-09-16', '2016-09-21', 'Ramlal ind', 'ramlala@gmail.com', '2016-09-15 17:02:38', 1, 50, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(6, 'new quot', '2016-09-16', '2016-09-17', 'new quot', 'ajs@gg.com', '2016-09-16 23:19:47', 1, 6, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(7, 'new quot', '2016-09-16', '2016-09-17', 'new quot', 'ajs@gg.com', '2016-09-16 23:20:08', 1, 6, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(8, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:28:00', 1, 8, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(9, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:29:14', 1, 8, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(10, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:33:29', 1, 8, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(11, 'asnjsa', '2016-09-16', '2016-09-17', 'asnjsa', 'aslan@gmo.com', '2016-09-16 23:35:48', 1, 9, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(12, 'sas', '2016-09-17', '2016-09-17', 'sas', 'asdas@gmak.com', '2016-09-17 01:33:53', 1, 5, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(13, 'faralia', '2016-09-01', '2016-09-24', 'faralia', 'fara@gmail.com', '2016-09-21 17:54:34', 1, 12, 0);
-INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`) VALUES
-	(14, 'ramlam', '2016-09-21', '2016-09-30', 'ramlam', 'ram@kafk.com', '2016-09-25 03:09:24', 1, 23, 3);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(1, 'imran quote', '2016-09-10', '2016-09-15', '123456', NULL, '2016-09-10 00:26:54', 1, NULL, NULL, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(2, 'Test Quote', '2016-09-13', '2016-09-21', '1221212', NULL, '2016-09-13 20:10:41', 1, NULL, NULL, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(3, 'asskj', '2016-09-14', '2016-09-17', 'asskj', 'sanja@gg.com', '2016-09-14 20:37:58', 1, 6, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(4, 'asskj', '2016-09-14', '2016-09-17', 'asskj', 'sanja@gg.com', '2016-09-14 20:39:15', 1, 6, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(5, 'Ramlal ind', '2016-09-16', '2016-09-21', 'Ramlal ind', 'ramlala@gmail.com', '2016-09-15 17:02:38', 1, 50, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(6, 'new quot', '2016-09-16', '2016-09-17', 'new quot', 'ajs@gg.com', '2016-09-16 23:19:47', 1, 6, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(7, 'new quot', '2016-09-16', '2016-09-17', 'new quot', 'ajs@gg.com', '2016-09-16 23:20:08', 1, 6, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(8, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:28:00', 1, 8, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(9, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:29:14', 1, 8, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(10, 'snaja', '2016-09-16', '2016-09-17', 'snaja', 'jsanja@nja.com', '2016-09-16 23:33:29', 1, 8, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(11, 'asnjsa', '2016-09-16', '2016-09-17', 'asnjsa', 'aslan@gmo.com', '2016-09-16 23:35:48', 1, 9, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(12, 'sas', '2016-09-17', '2016-09-17', 'sas', 'asdas@gmak.com', '2016-09-17 01:33:53', 1, 5, 0, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(13, 'faralia', '2016-09-01', '2016-09-24', 'faralia', 'fara@gmail.com', '2016-09-21 17:54:34', 1, 12, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(14, 'ramlam', '2016-09-21', '2016-09-30', 'ramlam', 'ram@kafk.com', '2016-09-25 03:09:24', 1, 23, 3, 0);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(15, 'AJX Jagdambe enter', '2016-10-22', '2016-10-29', '', 'jagdambe@jaf.com', '2016-10-08 23:02:01', 1, 50, 0, 1);
+INSERT INTO `tbl_quotation` (`id`, `quot_name`, `arrival_date`, `departure_date`, `contact`, `email`, `created_on`, `created_by`, `pax`, `minor`, `is_active`) VALUES
+	(16, 'Galaxy ', '2016-10-10', '2016-10-17', '', 'galaxy@email.com', '2016-10-09 13:01:59', 2, 50, 0, 1);
 /*!40000 ALTER TABLE `tbl_quotation` ENABLE KEYS */;
 
 
@@ -277,9 +286,9 @@ CREATE TABLE IF NOT EXISTS `tbl_quot_hotel` (
   CONSTRAINT `tbl_quot_hotel_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `tbl_city` (`id`),
   CONSTRAINT `tbl_quot_hotel_ibfk_3` FOREIGN KEY (`city_area_id`) REFERENCES `tbl_city_area` (`id`),
   CONSTRAINT `tbl_quot_hotel_ibfk_4` FOREIGN KEY (`hotel_id`) REFERENCES `tbl_hotel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_quot_hotel: ~9 rows (approximately)
+-- Dumping data for table db_quotation.tbl_quot_hotel: ~10 rows (approximately)
 /*!40000 ALTER TABLE `tbl_quot_hotel` DISABLE KEYS */;
 INSERT INTO `tbl_quot_hotel` (`id`, `quotation_id`, `city_id`, `city_area_id`, `cin_date`, `cout_date`, `no_pax`, `hotel_id`, `room_type_id`) VALUES
 	(4, 13, 1, NULL, '2016-09-01', '2016-09-24', 12, 3, '1,2');
@@ -299,6 +308,8 @@ INSERT INTO `tbl_quot_hotel` (`id`, `quotation_id`, `city_id`, `city_area_id`, `
 	(11, 5, 1, NULL, '2016-09-16', '2016-09-21', 50, 1, '1');
 INSERT INTO `tbl_quot_hotel` (`id`, `quotation_id`, `city_id`, `city_area_id`, `cin_date`, `cout_date`, `no_pax`, `hotel_id`, `room_type_id`) VALUES
 	(12, 1, 1, NULL, '2016-09-10', '2016-09-15', 14, 1, '1,2');
+INSERT INTO `tbl_quot_hotel` (`id`, `quotation_id`, `city_id`, `city_area_id`, `cin_date`, `cout_date`, `no_pax`, `hotel_id`, `room_type_id`) VALUES
+	(13, 15, 1, NULL, '2016-10-22', '2016-10-29', 50, 1, '1');
 /*!40000 ALTER TABLE `tbl_quot_hotel` ENABLE KEYS */;
 
 
@@ -338,9 +349,9 @@ CREATE TABLE IF NOT EXISTS `tbl_quot_txr_type` (
   `quotation_id` int(11) NOT NULL,
   `txr_type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_quot_txr_type: ~9 rows (approximately)
+-- Dumping data for table db_quotation.tbl_quot_txr_type: ~10 rows (approximately)
 /*!40000 ALTER TABLE `tbl_quot_txr_type` DISABLE KEYS */;
 INSERT INTO `tbl_quot_txr_type` (`id`, `quotation_id`, `txr_type`) VALUES
 	(1, 1, 1);
@@ -360,6 +371,8 @@ INSERT INTO `tbl_quot_txr_type` (`id`, `quotation_id`, `txr_type`) VALUES
 	(8, 5, 1);
 INSERT INTO `tbl_quot_txr_type` (`id`, `quotation_id`, `txr_type`) VALUES
 	(9, 1, 1);
+INSERT INTO `tbl_quot_txr_type` (`id`, `quotation_id`, `txr_type`) VALUES
+	(10, 15, 1);
 /*!40000 ALTER TABLE `tbl_quot_txr_type` ENABLE KEYS */;
 
 
@@ -481,13 +494,16 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `pass` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   `created_on` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_admin` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_user: ~1 rows (approximately)
+-- Dumping data for table db_quotation.tbl_user: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tbl_user` DISABLE KEYS */;
-INSERT INTO `tbl_user` (`id`, `username`, `name`, `pass`, `is_active`, `created_on`) VALUES
-	(1, 'admin', 'Administrator', '123', 1, '2016-09-05 14:23:56');
+INSERT INTO `tbl_user` (`id`, `username`, `name`, `pass`, `is_active`, `created_on`, `is_admin`) VALUES
+	(1, 'admin', 'Administrator', '123', 1, '2016-09-05 14:23:56', 1);
+INSERT INTO `tbl_user` (`id`, `username`, `name`, `pass`, `is_active`, `created_on`, `is_admin`) VALUES
+	(2, 'user', 'User', '123', 1, '2016-10-09 11:26:27', 0);
 /*!40000 ALTER TABLE `tbl_user` ENABLE KEYS */;
 
 
