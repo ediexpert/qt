@@ -55,10 +55,17 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Price <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Price(Adult) <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text"  name="sprice" required="required" value="<?=$value->service_price?>"  class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+					  <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Price(Minor) <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text"  name="sprice_minor" required="required" value="<?=$value->service_price_minor?>"  class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <?php if($value->img): ?>

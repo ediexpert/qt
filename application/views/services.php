@@ -25,11 +25,12 @@
             <div class="row">
 
               <div class="col-md-12 col-sm-12 col-xs-12">
-                <button type="button" class="btn btn-primary" onclick="window.location.href=''">Add Hotel</button>
+                
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+				  <?php if($isAdmin): ?>
                     <div  class="panel panel-body" id="add_city_div" style="display:block">
                         <select id="service_type" class="" name="city">
                           <option>Select service type</option>
@@ -39,10 +40,12 @@
                           <?php }
                            ?>
                         </select>
-                        <input id="id_service" type="text" name="name" value="">
-                        <input id="price" type="number" name="price" value="">
-                        <button id="id_save_service" type="button" name="button">Add</button>
+                        <input id="id_service" type="text" name="name" value="" placeholder="Service: eg Cruise Tour">
+                        <input id="price" type="number" name="price" value="" placeholder="Adult Price: eg 165">
+						<input id="price_minor" type="number"  value="" placeholder="Minor Price: eg 165">
+                        <button class="btn-primary"  id="id_save_service" type="button" name="button">Add Service</button>
                     </div>
+					<?php endif; ?>
 
                     <h2><?php if(isset($heading)) echo $heading; ?> <small>All</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
@@ -71,7 +74,8 @@
                           <th>Id</th>
                           <th>Service</th>
                           <th>Type</th>
-                          <th>Price</th>
+                          <th>Price(Adult)</th>
+						  <th>Price(Minor)</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -85,8 +89,9 @@
                         <tr>
                           <td><?=$value->id?></td>
                           <td><?=$value->service_name?></td>
-                          <td><a href="quotation/quot/<?=$value->id?>"><?=$value->service_type_id?></a></td>
+                          <td><?=$value->service_type_id?></td>
                           <td><?=$value->service_price?></td>
+						  <td><?=$value->service_price_minor?></td>
                           <td>
                             <a class="btn btn-primary" href="<?php echo base_url(); ?>index.php/services/edit/<?=$value->id?>">Edit</a>
 
@@ -223,10 +228,12 @@
                 var stid = $('#service_type').val();
                 var ser = $('#id_service').val();
                 var price = $('#price').val();
+				var price_minor = $('#price_minor').val();
                 var postData = {
                   'stid': stid,
                   'ser': ser,
-                  'price' : price
+                  'price' : price,
+				  'price_minor' : price_minor
                 };
                 console.log(postData);
                 $.ajax({

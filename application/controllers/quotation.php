@@ -51,6 +51,7 @@ class Quotation extends CI_Controller {
 		$data['hotel']=$this->quotation_model->get_quotation_hotel($id);
 		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
 		$data['txr']=$this->quotation_model->get_quotation_txr($id);
+		$data['isAdmin'] = $this->user_model->is_admin();
 		$this->load->view('quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('view_quotation',$data);
@@ -166,6 +167,16 @@ class Quotation extends CI_Controller {
 
 	function delete(){
 		$res = $this->quotation_model->delete();
+		echo json_encode($res);
+
+	}
+	function deleteHotel(){
+		$res = $this->quotation_model->deleteHotel();
+		echo json_encode($res);
+
+	}
+	function deleteDayplan(){
+		$res = $this->quotation_model->deleteDayplan();
 		echo json_encode($res);
 
 	}

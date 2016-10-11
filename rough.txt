@@ -1,0 +1,20 @@
+PAX : 50
+minor : 9 
+
+1 -> child price for every service is diffrent 
+service -> add minor price
+transportaion -> devide all to per person
+trasport vehicle -> capacity , price 
+
+
+Quotation :
+per person
+per minor
+ Total (inc PAX & Minor)
+ Room : 
+-> While creating quotation ask for no of rooms
+ 
+ 
+ select  b.room_price * a.no_rooms as Total  from tbl_quot_hotel a, tbl_room b WHERE a.quotation_id=17 AND a.room_type_id=b.id
+ 
+ 

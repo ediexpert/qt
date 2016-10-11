@@ -18,7 +18,19 @@
     $query = $this->db->get_where('tbl_services',$where_query);
     return $query->result();
   }
-
+	function add(){
+	  $insert_data = array(
+		'service_type_id' => $_REQUEST['stid'],
+		'service_name' => $_REQUEST['ser'],
+		'service_price' => $_REQUEST['price'],
+		'service_price_minor' => $_REQUEST['price_minor']
+	  );
+	  if($this->db->insert('tbl_services',$insert_data)){
+		echo '<tr><td>#</td><td>'.$_REQUEST['ser'].'</td><td>'.$_REQUEST['stid'].'</td><td>'.$_REQUEST['price'].'</td><td>'.$_REQUEST['price_minor'].'</td></tr>';
+	  }else{
+		echo "Unable to add data due to " . $this->db->error();
+	  }
+}
   function upload_img(){
 
 
@@ -39,11 +51,12 @@
 				}
 
         if(!$file_name){
-          $file_name = $_REQUEST['img_name'];
+          $file_name = ($_REQUEST['img_name'])?$_REQUEST['img_name']:"";
         }
     $update_data = array(
       'service_name' => $_REQUEST['sname'],
       'service_price' => $_REQUEST['sprice'],
+	  'service_price_minor' => $_REQUEST['sprice_minor'],
       'img' => $file_name
     );
     $where_data = array('id' => $_REQUEST['id']);

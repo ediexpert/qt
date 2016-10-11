@@ -114,11 +114,17 @@ class Quotation_Model extends CI_Model {
 
 
     function get_quotation_hotel($id){
-      $search_query = array(
-        'quotation_id' => $id
-      );
-      $query = $this->db->get_where('tbl_quot_hotel',$search_query);
-      return $query->result();
+      // $search_query = array(
+        // 'quotation_id' => $id
+      // );
+      // $query = $this->db->get_where('tbl_quot_hotel',$search_query);
+      // return $query->result();
+	  $q = "select d.hotel_name,c.room_type,b.pax,b.minor,a.no_rooms,b.arrival_date,b.departure_date,c.room_price from tbl_quot_hotel a, tbl_quotation b, tbl_room c, tbl_hotel d where a.quotation_id=b.id AND a.room_type_id=c.id AND c.hotel_id=d.id AND b.id='$id'";
+	  if($r = $this->db->query($q)){
+		  return $r->result();
+	  }else{
+		  return $this->db->error();
+	  }
     }
 
     function get_quotation_dayplan($id){
@@ -148,6 +154,7 @@ class Quotation_Model extends CI_Model {
         'no_pax' => $_REQUEST['pax'],
         'hotel_id' => $_REQUEST['hotel_id'],
         'room_type_id' => $_REQUEST['room_id'],
+		'no_rooms' => $_REQUEST['no_rooms']
       );
       if($this->db->insert('tbl_quot_hotel',$insert_data)){
         echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>'.$_REQUEST['city_id'].'</td><td>'.$_REQUEST['hotel_id'].'</td><td>'.$_REQUEST['cidate'].'</td><td>'.$_REQUEST['codate'].'</td><td>Night(s)</td><td>'.$_REQUEST['pax'].'</td><td>Minor(s)</td> </tr> </table> </div> </div>';
@@ -205,6 +212,11 @@ class Quotation_Model extends CI_Model {
       $q = $this->db->query($query);
       return $q->result();
     }
+	function get_price_minor_by_service_ids($ids){
+      $query = "select sum(service_price_minor) FROM tbl_services WHERE id in ($ids)";
+      $q = $this->db->query($query);
+      return $q->result();
+    }
     function delete(){
       // $update_data = array(
       //   'id' => $_REQUEST['id'],
@@ -216,5 +228,30 @@ class Quotation_Model extends CI_Model {
       //$this->db->replace('tbl_quotation', $update_data);
       return $this->db->affected_rows() > 0 ? true:false;
     }
+	function deleteHotel(){
+      $this->db->where('id', $_REQUEST['id']);
+		if($this->db->delete('tbl_quot_hotel')){
+			return "sucess";
+		}else{
+			return $this->db->error();
+		} 
+    }
+	function deleteDayplan(){
+      $this->db->where('id', $_REQUEST['id']);
+		if($this->db->delete('tbl_dayplan')){
+			return "sucess";
+		}else{
+			return $this->db->error();
+		} 
+    }
+	
+	function quotation_hotel_total($id){
+		$query = "select  b.room_price * a.no_rooms as total  from tbl_quot_hotel a, tbl_room b WHERE a.quotation_id='$id' AND a.room_type_id=b.id";
+		if($r = $this->db->query($query)){
+			return $r->result();
+		}else{
+			return $this->db->error(); 
+		}
+	}
 }
 ?>
