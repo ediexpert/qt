@@ -1,24 +1,12 @@
-
+<?php foreach($areas as $k => $val){
+	$area_name[] =  $val->area_name;
+} 					
+?>
 
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
-            <div class="page-title">
-              <div class="title_left">
-                <h3>Form Wizards</h3>
-              </div>
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
             <div class="clearfix"></div>
 
             <div class="row">
@@ -27,21 +15,7 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Form Wizards <small>Sessions</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -338,11 +312,42 @@
 
                         </form>
                       </div>
+					  
+					  
+					  <!-- ### STEP 4 --- ####### -->
                       <div id="step-4">
                         <h2 class="StepTitle text-center">Transfer(s)</h2>
-                        <form class="form-horizontal form-label-left">
+						<div class="">
+						
+							<table id="txr_table" class="table">
+								<tr><th>Date</th><th>Vehicle</th><th>Origin</th><th>Destination</th></tr>
+								<?php 
+								foreach($quotation_txr as $key => $val){ ?>
+								<tr>
+									<td><?=$val->dayplan_date?></td>
+									<td><?=$val->transfer_type?></td>
+									<td><?=$area_name[$val->txr_origin]?></td>
+									<td><?=$area_name[$val->txr_destination]?></td>
+								</tr>
+							<?php
+								} 
+							?>
+								
+							</table>
+						</div>
+                        <div class="form-horizontal form-label-left">
                             <div id="txr_type_res"></div>
-                            <div id="txr_type_input" class="form-group">
+							
+							
+                            <div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Date<span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="date" id="txr_date" class="form-control"  min="<?php echo $quot[0]->arrival_date;?>" max="<?php echo $quot[0]->departure_date;?>" />
+                              </div>
+
+                            </div>
+                            <div class="form-group">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select Transfer Type<span class="required">*</span>
                               </label>
                               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -359,10 +364,50 @@
                               </div>
 
                             </div>
+							<div class="form-group">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Origin<span class="required">*</span>
+                              </label>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select id="txr_origin" class="form-control">
+                                  <option>Select Please</option>
+                                  <?php
+                                  foreach ($areas as $key => $value) {
+                                    // print_r( $value);
+                                    echo '<option value="'.$value->id.'"  >'.$value->area_name.' </option> <!-- /checkbox div -->';
+                                  }
+                                  ?>
 
+                                </select>
+                              </div>
+							  </div>
+							  <div class="form-group">
+								  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Destination<span class="required">*</span>
+								  </label>
+								  <div class="col-md-6 col-sm-6 col-xs-12">
+									<select id="txr_dest" class="form-control">
+									  <option>Select Please</option>
+									  <?php
+									  foreach ($areas as $key => $value) {
+										// print_r( $value);
+										echo '<option value="'.$value->id.'"  >'.$value->area_name.' </option> <!-- /checkbox div -->';
+									  }
+									  ?>
+
+									</select>
+								  </div>
+
+								</div>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12">Vehicle Quantity</label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input id="txr_qty" type="number" class="form-control" placeholder="Qty eg:3" />
+									</div>
+								</div> 
+			
+				
                             <div class="form-group" id="id_txt_save_div">
                               <div class="text-center col-md-12 col-sm-12 col-xs-12">
-                                <button type="button" id="id_txr_save" class="btn btn-primary" name="button">Save</button>
+                                <button id="id_txr_save" class="btn btn-primary">Save</button>
                               </div>
                             </div>
                             <div class="form-group" id="id_view_quotation_div" style="display:none">
@@ -374,9 +419,9 @@
 
 
 
-                        </form>
+                        </div>
 
-                      </div>
+                      
 
                     </div>
                     <!-- End SmartWizard Content -->
@@ -712,34 +757,7 @@
               });
             </script>
             <!-- /get rooms on select of city -->
-            <!-- add transfer type -->
-            <script>
-            $(document).ready(function(){
-              $('#id_txr_save').click(function(){
-                  console.log("sending data to add day plan");
-                  var qid = $("#id_qid").val();
-                  var txr_type = $('#id_txr_type').val();
-
-                  var postData = {
-                      'qid' : qid,
-                      'txr_type' : txr_type
-                    };
-                    console.log(postData);
-                  $.ajax({
-                       type: "POST",
-                       url: "<?php echo base_url(); ?>" + "index.php/quotation/add_txr_type",
-                       data: postData , //assign the var here
-                       success: function(res){
-                         $('#txr_type_input').hide();
-                         $('#id_txt_save_div').hide();
-                         $('#id_view_quotation_div').show();
-                         $( "#txr_type_res" ).append(res);
-
-                       }
-                  });
-              });
-            });
-            </script>
+            
             <!-- / add transfer type -->
 			<!-- DELETE quotation hotel -->
 			<script type="text/javascript">
@@ -795,6 +813,38 @@
 
             </script>
 			<!-- /DELETE quotation DAYPLAN -->
-
+						<!-- add transfer type -->
+            <script>
+            $(document).ready(function(){
+              $('#id_txr_save').click(function(){
+                  var qid = $("#id_qid").val();
+                  var txr_type = $('#id_txr_type').val();
+				  var origin = $('#txr_origin').val();
+				  var dest = $('#txr_dest').val();
+				  var qty = $('#txr_qty').val();
+				  var txr_date = $('#txr_date').val();
+				
+                  var postData = {
+                      'qid' : qid,
+                      'txr_type' : txr_type,
+					  'txr_origin' : origin,
+					  'txr_dest' : dest,
+					  'txr_qty' : qty,
+					  'date' : txr_date
+                    };
+                    console.log(postData);
+                  $.ajax({
+                       type: "POST",
+                       url: "<?php echo base_url(); ?>" + "index.php/quotation/add_txr_type",
+                       data: postData , //assign the var here
+                       success: function(res){
+						   console.log(res);
+                         $("#txr_table" ).append('<tr><td>'+txr_date+'</td><td>'+txr_type+'</td><td>'+origin+'</td><td>'+dest+'</td></tr>');
+                       }
+                  });
+              });
+            });
+            </script>
+            <!-- / add transfer type -->
         </body>
         </html>

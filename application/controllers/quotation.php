@@ -31,7 +31,7 @@ class Quotation extends CI_Controller {
 			 $this->load->model('service');
 			 $this->load->model('quotation_model');
 			 $this->load->model('user_model');
-
+			$this->load->model('city_model');
 	 }
 	public function index()
 	{
@@ -93,11 +93,13 @@ class Quotation extends CI_Controller {
 		$data['cities'] = $this->quotation_model->get_cities();
 		$data['quotation_hotel'] = $this->quotation_model->get_quotation_hotel($id);
 		$data['quotation_dayplan'] = $this->quotation_model->get_quotation_dayplan($id);
+		$data['quotation_txr'] = $this->quotation_model->get_quotation_txr($id);
 		$data['timing'] = $this->quotation_model->get_timing($id);
 		$data['transfer_type'] = $this->quotation_model->get_transfer_type();
 		$data['services'] = $this->quotation_model->get_services();
 		$data['services_type'] = $this->quotation_model->get_services_type();
 		$data['transfer_type'] = $this->quotation_model->get_transfer_type();
+		$data['areas'] = $this->city_model->get_all_city_areas();
 		$this->load->view('new_quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('new_quotation_wizard',$data);

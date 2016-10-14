@@ -119,7 +119,8 @@ class Quotation_Model extends CI_Model {
       // );
       // $query = $this->db->get_where('tbl_quot_hotel',$search_query);
       // return $query->result();
-	  $q = "select d.hotel_name,c.room_type,b.pax,b.minor,a.no_rooms,b.arrival_date,b.departure_date,c.room_price from tbl_quot_hotel a, tbl_quotation b, tbl_room c, tbl_hotel d where a.quotation_id=b.id AND a.room_type_id=c.id AND c.hotel_id=d.id AND b.id='$id'";
+	  //$q = "select d.hotel_name,c.room_type,b.pax,b.minor,a.no_rooms,b.arrival_date,b.departure_date,c.room_price from tbl_quot_hotel a, tbl_quotation b, tbl_room c, tbl_hotel d where a.quotation_id=b.id AND a.room_type_id=c.id AND c.hotel_id=d.id AND b.id='$id'";
+	  $q ="select a.id as id,a.hotel_id,a.city_id,a.cin_date,a.cout_date,a.no_pax,d.hotel_name,c.room_type,b.pax,b.minor,a.no_rooms,b.arrival_date,b.departure_date,c.room_price from tbl_quot_hotel a, tbl_quotation b, tbl_room c, tbl_hotel d where a.quotation_id=b.id AND a.room_type_id=c.id AND c.hotel_id=d.id AND b.id='$id'";
 	  if($r = $this->db->query($q)){
 		  return $r->result();
 	  }else{
@@ -134,13 +135,21 @@ class Quotation_Model extends CI_Model {
       $query = $this->db->get_where('tbl_dayplan',$search_query);
       return $query->result();
     }
+	
+	
 
     function get_quotation_txr($id){
-      $search_query = array(
-        'quotation_id' => $id
-      );
-      $query = $this->db->get_where('tbl_quot_txr_type',$search_query);
-      return $query->result();
+		$q = "select * from tbl_quot_transfers a, tbl_transfer_type b where  a.transfer_type_id=b.id AND a.quotation_id ='$id'";
+		if($r = $this->db->query($q)){
+			return $r->result();
+		}else{
+			$this->db->error();
+		}
+      // $search_query = array(
+        // 'quotation_id' => $id
+      // );
+      // $query = $this->db->get_where('tbl_quot_transfers',$search_query);
+      // return $query->result();
     }
 
 
@@ -186,9 +195,13 @@ class Quotation_Model extends CI_Model {
     function add_txr_type(){
       $insert_data = array(
         'quotation_id' => $_REQUEST['qid'],
-        'txr_type' => $_REQUEST['txr_type']
+		'dayplan_date' => $_REQUEST['date'],
+		'transfer_type_id' => $_REQUEST['txr_type'],
+		'txr_origin' => $_REQUEST['txr_origin'],
+		'txr_destination' => $_REQUEST['txr_dest'],
+		'txr_qty' => $_REQUEST['txr_qty']
       );
-      if($this->db->insert('tbl_quot_txr_type',$insert_data)){
+      if($this->db->insert('tbl_quot_transfers',$insert_data)){
         echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>id</th><th>transfer type</th></tr><td>'.$_REQUEST['qid'].'</td><td>'.$_REQUEST['txr_type'].'</td></tr> </table> </div> </div>';
       }else{
         echo "Unable to add data due to " . $this->db->error();
