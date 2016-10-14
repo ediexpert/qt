@@ -19,7 +19,7 @@ class Transfers extends CI_Controller{
     $this->load->view('head',$data);
     $this->load->view('side_menu',$data);
     $this->load->view('transfers',$data);
-    $this->load->view('quotation_foot',$data);
+    //$this->load->view('quotation_foot',$data);
   }
   public function add(){
     $res = $this->common->add_transfers();

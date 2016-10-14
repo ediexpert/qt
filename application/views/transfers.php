@@ -24,9 +24,7 @@
 
             <div class="row">
 
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <button type="button" class="btn btn-primary" onclick="window.location.href=''">Add Transfers / Routes</button>
-              </div>
+              
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
