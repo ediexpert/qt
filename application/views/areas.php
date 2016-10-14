@@ -25,11 +25,12 @@
             <div class="row">
 
               <div class="col-md-12 col-sm-12 col-xs-12">
-                <button type="button" class="btn btn-primary" onclick="window.location.href=''">Add Area / Locality</button>
+                
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+				  <?php if($isAdmin): ?>
                     <div  class="panel panel-body" id="add_city_div" style="display:block">
                         <select id="city_name" class="" name="city">
                           <option>Select city</option>
@@ -39,10 +40,10 @@
                           <?php }
                            ?>
                         </select>
-                        <input id="id_city_name" type="text" name="name" value="">
-                        <button id="id_save_area" type="button" name="button">Add</button>
+                        <input id="id_city_name" type="text" name="name" value="" placeholder="Locality: eg Deira">
+                        <button class="btn-primary" id="id_save_area" type="button" name="button">Add Area</button>
                     </div>
-
+					<?php endif; ?>
 
                     <h2>Localities <small>All</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
@@ -81,7 +82,7 @@
 
                         <tr>
                           <td><?=$value->id?></td>
-                          <td><a href="quotation/quot/<?=$value->id?>"><?=$value->area_name?></a></td>
+                          <td><?=$value->area_name?></td>
                         </tr>
                         <?php
                       }

@@ -152,7 +152,7 @@
                               foreach ($quotation_hotel as $key => $value) {
                                 // print_r( $value);
                                 echo $this->common->get_hotel_by_id($value->hotel_id);
-                                echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> </tr> <tr> <td>'.$this->common->get_city_by_id($value->city_id).'</td><td>'.$this->common->get_hotel_by_id($value->hotel_id).'</td><td>'.$value->cin_date.'</td><td>'.$value->cout_date.'</td><td>Night(s)</td><td>'.$value->no_pax.'</td><td>Minor(s)</td> </tr> </table> </div> </div>';
+                                echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr> <th>city</th><th>Hotel</th><th>Checkin</th><th>checkout</th><th>Night(s)</th><th>PAX</th><th>Minor(s)</th> <th></th></tr> <tr> <td>'.$this->common->get_city_by_id($value->city_id).'</td><td>'.$this->common->get_hotel_by_id($value->hotel_id).'</td><td>'.$value->cin_date.'</td><td>'.$value->cout_date.'</td><td>Night(s)</td><td>'.$value->no_pax.'</td><td>Minor(s)</td><td><button class="btn-danger" onclick="delQuotHotel('.$value->id.');$(this).closest(\'tr\').remove();">X</button></td> </tr> </table> </div> </div>';
                               }
                             }
                           ?>
@@ -189,11 +189,18 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Options Available
                                 </label>
                                 <div id="id_room_type" class="col-md-6 col-sm-6 col-xs-12">
-                                  <input type="text" id="id_room_types" name="room_types" value="">
+                                  
                                   <!-- room will come here -->
                                 </div>
                               </div>
                               <!-- / Hotel options div -->
+							  <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">No of Room(s)
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                  <input type="number" id="norooms" class="form-control"  value="">
+                                </div>
+                              </div>
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Checkin Date
                                 </label>
@@ -208,6 +215,7 @@
                                   <input id="id_codate" type="date" class="form-control" name="codate" value="<?php echo $quot[0]->departure_date;?>">
                                 </div>
                               </div>
+							  
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Night(s)
                                 </label>
@@ -247,7 +255,7 @@
                               if(isset($quotation_dayplan)){
                                 foreach ($quotation_dayplan as $key => $value) {
                                   // print_r( $value);
-                                  echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th></tr><td>'.$value->dayplan_date.'</td><td>'.$value->daytime_id.'</td><td>'.$value->services_id.'</td></tr> </table> </div> </div>';
+                                  echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th><th></th></tr><td>'.$value->dayplan_date.'</td><td>'.$value->daytime_id.'</td><td>'.$value->services_id.'</td><td><button class="btn-danger" onclick="delQuotDayplan('.$value->id.');$(this).closest(\'tr\').remove();">X</button></td></tr> </table> </div> </div>';
                                 }
                               }
                             ?>
@@ -359,7 +367,7 @@
                             </div>
                             <div class="form-group" id="id_view_quotation_div" style="display:none">
                               <div class="text-center col-md-12 col-sm-12 col-xs-12">
-                                <button type="button" id="" class="btn btn-primary" name="button">View Quotation</button>
+                                <a type="button" id="" href="<?=base_url()?>index.php/quotation/view/<?=$quot[0]->id?>" class="btn btn-primary" name="button">View Quotation</a>
                                   <button type="button" id="" class="btn btn-primary" name="button">View Iterina</button>
                               </div>
                             </div>
@@ -587,6 +595,7 @@
                   var codate = $('#id_codate').val();
                   var pax = $('#id_pax').val();
                   var hotel_id = $('#hotels').val();
+				  var no_rooms = $('#norooms').val();
                   // var x =  $('input[name="room[]"]').val();;
 
                   // var arr = [];
@@ -608,7 +617,8 @@
                       'codate' : codate,
                       'pax' : pax,
                       'hotel_id' : hotel_id,
-                      'room_id' : room_ids
+                      'room_id' : room_ids,
+					  'no_rooms' : no_rooms
                     };
 
                     console.log(postData);
@@ -690,6 +700,7 @@
                         dataType: 'json',
                         //data: d,
                         success: function(res) {
+							$('#id_room_type').html('');
                           $.each(res,function(key,val){
                               $.each(val,function(index,x){
                                  $('#id_room_type').append('<div class="col-md-2 text-center"><label><input class="hotel_room_chkbx" type="checkbox" name="room[]" value="'+x['id']+'"><br/>'+x['room_type']+'<p class="text-danger">'+x['room_price']+'&nbsp;AED</p></label></div>');
@@ -730,7 +741,60 @@
             });
             </script>
             <!-- / add transfer type -->
+			<!-- DELETE quotation hotel -->
+			<script type="text/javascript">
+            function delQuotHotel(id) {
+                if (confirm("Are you sure?")) {
+                  var del ={
+                    'id' : id
+                  };
+                  console.log(del);
+                    $.ajax({
+                      type: "POST",
+                      url: "<?php echo base_url(); ?>" + "index.php/quotation/deleteHotel",
+                      data: del,
+                        success: function (res) {
+                          $('#<?=$value->id?>').remove();
+                            alert(res);
+                        },
+                        error: function () {
+                            alert('failure');
+                        }
+                    });
+                } else {
+                    alert(id + " not deleted");
+                }
+            }
 
+            </script>
+			<!-- /DELETE quotation hotel -->
+			<!-- DELETE quotation DAYPLAN -->
+			<script type="text/javascript">
+            function delQuotDayplan(id) {
+                if (confirm("Are you sure?")) {
+                  var del ={
+                    'id' : id
+                  };
+                  console.log(del);
+                    $.ajax({
+                      type: "POST",
+                      url: "<?php echo base_url(); ?>" + "index.php/quotation/deleteDayplan",
+                      data: del,
+                        success: function (res) {
+                          $('#<?=$value->id?>').remove();
+                            alert(res);
+                        },
+                        error: function () {
+                            alert('failure');
+                        }
+                    });
+                } else {
+                    alert(id + " not deleted");
+                }
+            }
+
+            </script>
+			<!-- /DELETE quotation DAYPLAN -->
 
         </body>
         </html>

@@ -95,6 +95,7 @@
 
                       <!-- Table row -->
                       <div class="row">
+					  <?php //print_r($hotel[0]); ?>
                         <div class="col-xs-12 table">
                           <table class="table table-striped">
                             <thead>
@@ -102,10 +103,15 @@
                                 <th>Hotel</th>
                                 <th>Room type</th>
                                 <th>PAX</th>
+								<th>Minors</th>
+								<th>Room(s)</th>
                                 <th>Arrival</th>
                                 <th>Departure</th>
+								<?php if($isAdmin): ?>
+								<th>Price</th>
+								<?php endif; ?>
                                 <!-- <th style="width: 59%">Description</th> -->
-                                <th>Subtotal</th>
+                                
                               </tr>
                             </thead>
                             <tbody>
@@ -118,15 +124,24 @@
                                 <td>$64.50</td>
                               </tr> -->
                               <?php
+							  /*
                               foreach ($hotel as $key => $value) { ?>
                                 <tr>
                                   <td><b><?=$this->common->get_hotel_by_id($value->hotel_id)?></b></td>
                                   <td>
                                     <?=$this->common->get_hotel_room_type_by_id_str($value->room_type_id)?></td>
-                                  <td><?=$value->no_pax?></td>
+                                  <td><?php $adult_pax = $value->no_pax; ?></td>
+								  <td><?php $minor_pax = $value->minor; ?></td>
+								  <td><?=$value->no_rooms?></td>
                                   <td><?=$value->cin_date?></td>
                                   <td><?=$value->cout_date?></td>
-                                  <td><?php $r = $this->quotation_model->quotation_hotel_room_price($quotation_info[0]->id)[0];
+								
+                                  <td><?php 
+								  $r = $this->quotation_model->quotation_hotel_total($quotation_info[0]->id)[0];
+								  print_r($r->total);
+								  $total_hotel = $r->total;
+								  echo '/';
+								  $r = $this->quotation_model->quotation_hotel_room_price($quotation_info[0]->id)[0];
                                   foreach ($r as $key => $value) {
                                     // $total = $value * $value->no_pax;
                                     $hotel_price = $value;
@@ -135,8 +150,24 @@
                                   ?></td>
                                 </tr>
                               <?php
-                              }
+                              }*/
+							  
+							  
                               ?>
+							  <tr>
+								<td><?=$hotel[0]->hotel_name?></td>
+								<td><?=$hotel[0]->room_type?></td>
+								<td><?=$hotel[0]->pax?></td>
+								<td><?=$hotel[0]->minor?></td>
+								<td><?=$hotel[0]->no_rooms?></td>
+								<td><?=$hotel[0]->arrival_date?></td>
+								<td><?=$hotel[0]->departure_date?></td>
+								
+								<td><?php $total_hotel_price = $hotel[0]->room_price*$hotel[0]->no_rooms; ?>
+								<?php if($isAdmin): echo $total_hotel_price;  endif; ?></td>
+								
+								
+							  </tr>
 
 
                             </tbody>
@@ -156,7 +187,9 @@
                                 <th>Time</th>
                                 <th>Services</th>
                                 <!-- <th style="width: 59%">Description</th> -->
-                                <th>Subtotal</th>
+								
+                                <th><?php if($isAdmin): ?>Subtotal<?php endif; ?></th>
+								
                               </tr>
                             </thead>
                             <tbody>
@@ -169,6 +202,7 @@
                                 <td>$64.50</td>
                               </tr> -->
                               <?php
+							  $service_adult = $service_minor = 0;
                               foreach ($dayplan as $key => $value) {
 
                                 ?>
@@ -176,16 +210,30 @@
                                   <td><b><?=$value->dayplan_date?></b></td>
                                   <td><?=$this->common->get_time_by_id($value->daytime_id)?></td>
                                   <td><?=$this->common->get_service_name_by_id_str($value->services_id)?></td>
-                                  <td><?php
+                                  
+								  <td><?php
                                   $sprice = $this->quotation_model->get_service_ids_by_qid_date($quotation_info[0]->id,$value->dayplan_date)[0] ;
                                   foreach ($sprice as $key => $val) {
                                     $s_price = $this->quotation_model->get_price_by_service_ids($val)[0];
                                     foreach ($s_price as $key => $v) {
                                       $service_price = $v;
+									  $service_adult +=$v;
+									  if($isAdmin): 
                                       echo $v;
+									   endif;
+									  
+                                    }
+									//echo '/';
+									$s_price = $this->quotation_model->get_price_minor_by_service_ids($val)[0];
+                                    foreach ($s_price as $key => $v) {
+									  $service_minor +=$v;
+                                     if($isAdmin): 
+                                      echo $v;
+									   endif;
                                     }
                                   }
                                    ?></td>
+								   
                                 </tr>
                               <?php
                               }
@@ -200,7 +248,7 @@
                       <div class="row">
                         <!-- accepted payments column -->
                         <div class="col-xs-6">
-                          <p class="lead">Payment Methods:</p>
+                          <p class="lead">Payment Methods:<?=$service_adult?>/<?=$service_minor?></p>
                           <img src="<?php echo base_url(); ?>images/visa.png" alt="Visa">
                           <img src="<?php echo base_url(); ?>images/mastercard.png" alt="Mastercard">
                           <img src="<?php echo base_url(); ?>images/american-express.png" alt="American Express">
@@ -216,13 +264,14 @@
                             <table class="table">
                               <tbody>
                                 <tr>
-                                  <th style="width:50%">Subtotal:</th>
-                                  <td><?php                                  echo $total_price = $hotel_price + $service_price;
-                                  ?> AED</td>
+                                  <th style="width:50%">Per Person(Adult):</th>
+                                  <td><?php  //echo $total_price = $hotel_price + $service_price; ?> 
+									<?=$service_adult?>
+                                 AED</td>
                                 </tr>
                                 <tr>
-                                  <th>Tax (9.3%)</th>
-                                  <td><?php echo $tax = ceil($total_price * 9.3)/100; ?> AED</td>
+                                  <th>Per Person(Minor)</th>
+                                  <td><?php //echo $tax = ceil($total_price * 9.3)/100; ?> <?=$service_minor?> AED</td>
                                 </tr>
                                 <!-- <tr>
                                   <th>Shipping:</th>
@@ -230,7 +279,7 @@
                                 </tr> -->
                                 <tr>
                                   <th>Total:</th>
-                                  <td><?=$total_price+$tax?> AED</td>
+                                  <td><b><?php //$total_price+$tax; ?>  <?php echo $total = $total_hotel_price +($service_adult*$hotel[0]->pax)+($service_minor*$hotel[0]->minor); ?> AED</b></td>
                                 </tr>
                               </tbody>
                             </table>

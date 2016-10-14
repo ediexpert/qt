@@ -32,10 +32,12 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+				  <?php if($isAdmin): ?>
                     <div  class="panel panel-body" id="add_city_div" style="display:block">
-                        <input id="id_city_name" type="text" name="name" value="">
-                        <button id="id_save_city" type="button" name="button">Add</button>
+                        <input id="id_city_name" type="text" name="name" value="" placeholder="City: eg Dubai">
+                        <button class="btn-primary" id="id_save_city" type="button" name="button">Add City</button>
                     </div>
+					<?php endif; ?>
                     <h2>Cities <small>All</small></h2>
 
                     <ul class="nav navbar-right panel_toolbox">
@@ -70,15 +72,11 @@
                       <tbody>
                         <?php
                         foreach ($cities as $key => $value) { ?>
-
-
                         <tr>
                           <td><?=$value->id?></td>
-                          <td><a href="quotation/quot/<?=$value->id?>"><?=$value->city_name?></a></td>
+                          <td><?=$value->city_name?></td>
                         </tr>
-                        <?php
-                      }
-                      ?>
+                        <?php   }	?>
 
                       </tbody>
                     </table>

@@ -185,18 +185,7 @@
 }
 
 
-function add_service(){
-  $insert_data = array(
-    'service_type_id' => $_REQUEST['stid'],
-    'service_name' => $_REQUEST['ser'],
-    'service_price' => $_REQUEST['price']
-  );
-  if($this->db->insert('tbl_services',$insert_data)){
-    echo '<tr><td></td><td>'.$_REQUEST['ser'].'</td><td>'.$_REQUEST['stid'].'</td></tr>';
-  }else{
-    echo "Unable to add data due to " . $this->db->error();
-  }
-}
+
 
 function add_transfers(){
   $insert_data = array(

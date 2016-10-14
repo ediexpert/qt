@@ -76,7 +76,7 @@
 
                         <tr id="<?=$value->id?>">
                           <td><?=$value->id?></td>
-                          <td><a href="quotation/quot/<?=$value->id?>"><?=$value->quot_name?></a></td>
+                          <td><?=$value->quot_name?></td>
                           <td><?=$this->common->convert_date_format_to_dmY($value->arrival_date)?></td>
                           <td><?=$this->common->convert_date_format_to_dmY($value->departure_date)?></td>
                           <td><?=$value->pax?></td>
