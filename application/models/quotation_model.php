@@ -266,5 +266,15 @@ class Quotation_Model extends CI_Model {
 			return $this->db->error(); 
 		}
 	}
+	
+	public function get_fare($vehicle, $origin, $dest){
+		//$query = "select * from tbl_transfer a WHERE a.transfer_origin = '$origin' AND a.transfer_destination = '$dest' AND a.transfer_type_id = '$vehicle' ";
+		$query = "select transfer_full_price from tbl_transfer where transfer_origin ='$origin' AND transfer_destination = '$dest' AND transfer_type_id = '$vehicle'";
+		if($r = $this->db->query($query)){
+			return $r->result();
+		}else{
+			return $this->db->error(); 
+		}
+	}
 }
 ?>

@@ -320,7 +320,7 @@
 						<div class="">
 						
 							<table id="txr_table" class="table">
-								<tr><th>Date</th><th>Vehicle</th><th>Origin</th><th>Destination</th></tr>
+								<tr><th>Date</th><th>Vehicle</th><th>Origin</th><th>Destination</th><th>Qty</th><th>Price</th></tr>
 								<?php 
 								foreach($quotation_txr as $key => $val){ ?>
 								<tr>
@@ -328,6 +328,9 @@
 									<td><?=$val->transfer_type?></td>
 									<td><?=$area_name[$val->txr_origin]?></td>
 									<td><?=$area_name[$val->txr_destination]?></td>
+									<td><?=$val->txr_qty?></td>
+									<td><?php
+									print_r($this->quotation_model->get_fare($val->transfer_type_id,$val->txr_origin,$val->txr_destination)[0]->transfer_full_price) ;?></td>
 								</tr>
 							<?php
 								} 
