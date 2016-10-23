@@ -37,6 +37,15 @@ class Quotation_Model extends CI_Model {
     //     $this->db->update('entries', $this, array('id' => $_POST['id']));
     // }
 
+    /* get prices of all the transfers by quotaiton id */
+    function get_txr_by_qid($id){
+      $q ="select a.id, a.dayplan_date, a.quotation_id,a.txr_origin,a.txr_destination,a.txr_qty, b.transfer_full_price from tbl_quot_transfers a , tbl_transfer b where a.quotation_id='$id' and a.transfer_type_id=b.transfer_type_id and a.txr_origin=b.transfer_origin and a.txr_destination=b.transfer_destination";
+      if($r = $this->db->query($q)){
+        return $r->result();
+      }else{
+        return $this->db->error();
+      }
+    }
     function get_all_quotations(){
       $q = array('is_active' => '1');
       $query = $this->db->get_where('tbl_quotation', $q);
@@ -135,8 +144,8 @@ class Quotation_Model extends CI_Model {
       $query = $this->db->get_where('tbl_dayplan',$search_query);
       return $query->result();
     }
-	
-	
+
+
 
     function get_quotation_txr($id){
 		$q = "select * from tbl_quot_transfers a, tbl_transfer_type b where  a.transfer_type_id=b.id AND a.quotation_id ='$id'";
@@ -247,7 +256,7 @@ class Quotation_Model extends CI_Model {
 			return "sucess";
 		}else{
 			return $this->db->error();
-		} 
+		}
     }
 	function deleteDayplan(){
       $this->db->where('id', $_REQUEST['id']);
@@ -255,25 +264,25 @@ class Quotation_Model extends CI_Model {
 			return "sucess";
 		}else{
 			return $this->db->error();
-		} 
+		}
     }
-	
+
 	function quotation_hotel_total($id){
 		$query = "select  b.room_price * a.no_rooms as total  from tbl_quot_hotel a, tbl_room b WHERE a.quotation_id='$id' AND a.room_type_id=b.id";
 		if($r = $this->db->query($query)){
 			return $r->result();
 		}else{
-			return $this->db->error(); 
+			return $this->db->error();
 		}
 	}
-	
+
 	public function get_fare($vehicle, $origin, $dest){
 		//$query = "select * from tbl_transfer a WHERE a.transfer_origin = '$origin' AND a.transfer_destination = '$dest' AND a.transfer_type_id = '$vehicle' ";
 		$query = "select transfer_full_price from tbl_transfer where transfer_origin ='$origin' AND transfer_destination = '$dest' AND transfer_type_id = '$vehicle'";
 		if($r = $this->db->query($query)){
 			return $r->result();
 		}else{
-			return $this->db->error(); 
+			return $this->db->error();
 		}
 	}
 }

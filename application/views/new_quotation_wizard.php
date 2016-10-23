@@ -1,36 +1,32 @@
 <?php foreach($areas as $k => $val){
 	$area_name[] =  $val->area_name;
-} 					
+}
 ?>
 
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
-            
+
             <div class="clearfix"></div>
 
             <div class="row">
 
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Form Wizards <small>Sessions</small></h2>
-                    
-                    <div class="clearfix"></div>
-                  </div>
+
                   <div class="x_content">
 
 
                     <!-- Smart Wizard -->
-                    <p>This is a basic form wizard example that inherits the colors from the selected scheme.</p>
+
                     <div id="wizard" class="form_wizard wizard_horizontal">
                       <ul class="wizard_steps">
                         <li>
                           <a href="#step-1">
                             <span class="step_no">1</span>
                             <span class="step_descr">
-                                              Step 1<br />
-                                              <small>Quotation info</small>
+                                              Quotation<br />
+                                              <small>info</small>
                                           </span>
                           </a>
                         </li>
@@ -38,8 +34,8 @@
                           <a href="#step-2">
                             <span class="step_no">2</span>
                             <span class="step_descr">
-                                              Step 2<br />
-                                              <small>Hotels</small>
+                                              Hotel<br />
+                                              <small>book</small>
                                           </span>
                           </a>
                         </li>
@@ -47,8 +43,8 @@
                           <a href="#step-3">
                             <span class="step_no">3</span>
                             <span class="step_descr">
-                                              Step 3<br />
-                                              <small>Day plans</small>
+                                              Dayplan<br />
+                                              <small>create</small>
                                           </span>
                           </a>
                         </li>
@@ -56,8 +52,8 @@
                           <a href="#step-4">
                             <span class="step_no">4</span>
                             <span class="step_descr">
-                                              Step 4<br />
-                                              <small>Transfers</small>
+                                              Transfers<br />
+                                              <small>manage</small>
                                           </span>
                           </a>
                         </li>
@@ -121,6 +117,25 @@
                         <form class="form-horizontal form-label-left">
                           <input id="id_qid" type="hidden" name="quotation_id" value="<?php echo $quot[0]->id;?>">
                           <div id="hotel_added_res">
+						  <table class="table text-danger">
+							<tr>
+								<th>Quot Name</th>
+								<th>PAX</th>
+								<th>Minors</th>
+								<th>Email</th>
+								<th>Arrival</th>
+								<th>Departure</th>
+
+							</tr>
+							<tr>
+								<td><?=$quot[0]->quot_name?></td>
+								<td><?=$quot[0]->pax?></td>
+								<td><?=$quot[0]->minor?></td>
+								<td><?=$quot[0]->email?></td>
+								<td><?=$quot[0]->arrival_date?></td>
+								<td><?=$quot[0]->departure_date?></td>
+							</tr>
+						</table>
                           <?php
                             if(isset($quotation_hotel)){
                               foreach ($quotation_hotel as $key => $value) {
@@ -163,7 +178,7 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Options Available
                                 </label>
                                 <div id="id_room_type" class="col-md-6 col-sm-6 col-xs-12">
-                                  
+
                                   <!-- room will come here -->
                                 </div>
                               </div>
@@ -189,7 +204,7 @@
                                   <input id="id_codate" type="date" class="form-control" name="codate" value="<?php echo $quot[0]->departure_date;?>">
                                 </div>
                               </div>
-							  
+
                               <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Night(s)
                                 </label>
@@ -222,17 +237,38 @@
                       </div>
                       <div id="step-3">
                         <h2 class="StepTitle text-center">Day Plan(s)</h2>
+						<table class="table text-danger">
+							<tr>
+								<th>Quot Name</th>
+								<th>PAX</th>
+								<th>Minors</th>
+								<th>Email</th>
+								<th>Arrival</th>
+								<th>Departure</th>
+
+							</tr>
+							<tr>
+								<td><?=$quot[0]->quot_name?></td>
+								<td><?=$quot[0]->pax?></td>
+								<td><?=$quot[0]->minor?></td>
+								<td><?=$quot[0]->email?></td>
+								<td><?=$quot[0]->arrival_date?></td>
+								<td><?=$quot[0]->departure_date?></td>
+							</tr>
+						</table>
                         <form class="form-horizontal form-label-left">
                           <input type="hidden" name="quotation_id" value="<?php echo $quot[0]->id;?>">
                           <div id="services_added_res">
+						  <div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th><th></th></tr>
                             <?php
                               if(isset($quotation_dayplan)){
                                 foreach ($quotation_dayplan as $key => $value) {
                                   // print_r( $value);
-                                  echo '<div class="panel panel-default"> <div class="panel-body"> <table class="table table-hover"> <tr><th>date</th><th>Time</th><th>Services</th><th></th></tr><td>'.$value->dayplan_date.'</td><td>'.$value->daytime_id.'</td><td>'.$value->services_id.'</td><td><button class="btn-danger" onclick="delQuotDayplan('.$value->id.');$(this).closest(\'tr\').remove();">X</button></td></tr> </table> </div> </div>';
+                                  echo '<tr><td>'.$value->dayplan_date.'</td><td>'.$value->daytime_id.'</td><td>'.$value->services_id.'</td><td><button class="btn-danger" onclick="delQuotDayplan('.$value->id.');$(this).closest(\'tr\').remove();">X</button></td></tr> ';
                                 }
                               }
                             ?>
+							</table> </div> </div>
                           </div>
                           <div class="panel panel-default">
                             <div class="panel-body">
@@ -312,36 +348,57 @@
 
                         </form>
                       </div>
-					  
-					  
+
+
 					  <!-- ### STEP 4 --- ####### -->
                       <div id="step-4">
                         <h2 class="StepTitle text-center">Transfer(s)</h2>
 						<div class="">
-						
+							<table class="table text-danger">
+							<tr>
+								<th>Quot Name</th>
+								<th>PAX</th>
+								<th>Minors</th>
+								<th>Email</th>
+								<th>Arrival</th>
+								<th>Departure</th>
+
+							</tr>
+							<tr>
+								<td><?=$quot[0]->quot_name?></td>
+								<td><?=$quot[0]->pax?></td>
+								<td><?=$quot[0]->minor?></td>
+								<td><?=$quot[0]->email?></td>
+								<td><?=$quot[0]->arrival_date?></td>
+								<td><?=$quot[0]->departure_date?></td>
+							</tr>
+						</table>
+
 							<table id="txr_table" class="table">
 								<tr><th>Date</th><th>Vehicle</th><th>Origin</th><th>Destination</th><th>Qty</th><th>Price</th></tr>
-								<?php 
+								<?php
 								foreach($quotation_txr as $key => $val){ ?>
 								<tr>
 									<td><?=$val->dayplan_date?></td>
 									<td><?=$val->transfer_type?></td>
-									<td><?=$area_name[$val->txr_origin]?></td>
-									<td><?=$area_name[$val->txr_destination]?></td>
+									<td><?=$area_name[$val->txr_origin-1]?></td>
+									<td><?=$area_name[$val->txr_destination-1]?></td>
 									<td><?=$val->txr_qty?></td>
 									<td><?php
 									print_r($this->quotation_model->get_fare($val->transfer_type_id,$val->txr_origin,$val->txr_destination)[0]->transfer_full_price) ;?></td>
+
 								</tr>
+
 							<?php
-								} 
+								}
 							?>
-								
+
 							</table>
 						</div>
                         <div class="form-horizontal form-label-left">
                             <div id="txr_type_res"></div>
-							
-							
+
+
                             <div class="form-group">
                               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Date<span class="required">*</span>
                               </label>
@@ -405,26 +462,22 @@
 									<div class="col-md-6 col-sm-6 col-xs-12">
 										<input id="txr_qty" type="number" class="form-control" placeholder="Qty eg:3" />
 									</div>
-								</div> 
-			
-				
+								</div>
+
+
                             <div class="form-group" id="id_txt_save_div">
                               <div class="text-center col-md-12 col-sm-12 col-xs-12">
                                 <button id="id_txr_save" class="btn btn-primary">Save</button>
+																<a type="button" id="" href="<?=base_url()?>index.php/quotation/view/<?=$quot[0]->id?>" class="btn btn-primary" name="button">View Quotation</a>
                               </div>
                             </div>
-                            <div class="form-group" id="id_view_quotation_div" style="display:none">
-                              <div class="text-center col-md-12 col-sm-12 col-xs-12">
-                                <a type="button" id="" href="<?=base_url()?>index.php/quotation/view/<?=$quot[0]->id?>" class="btn btn-primary" name="button">View Quotation</a>
-                                  <button type="button" id="" class="btn btn-primary" name="button">View Iterina</button>
-                              </div>
-                            </div>
+
 
 
 
                         </div>
 
-                      
+
 
                     </div>
                     <!-- End SmartWizard Content -->
@@ -467,7 +520,7 @@
         <script src="<?php echo base_url(); ?>gentelella/js/datepicker/daterangepicker.js"></script>
         <!-- Custom Theme Scripts -->
         <script src="<?php echo base_url(); ?>gentelella/build/js/custom.min.js"></script>
-
+				
         <!-- jQuery Smart Wizard -->
         <script>
         $(document).ready(function() {
@@ -760,7 +813,7 @@
               });
             </script>
             <!-- /get rooms on select of city -->
-            
+
             <!-- / add transfer type -->
 			<!-- DELETE quotation hotel -->
 			<script type="text/javascript">
@@ -826,7 +879,7 @@
 				  var dest = $('#txr_dest').val();
 				  var qty = $('#txr_qty').val();
 				  var txr_date = $('#txr_date').val();
-				
+
                   var postData = {
                       'qid' : qid,
                       'txr_type' : txr_type,

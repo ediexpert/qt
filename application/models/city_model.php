@@ -29,8 +29,12 @@
   }
   public function get_all_city_areas(){
     // $sql = 'select b.id,a.city_name,b.area_name from tbl_city a,tbl_city_area b';
-    $query = $this->db->get('tbl_city_area');
-    return $query->result();
+    if($query = $this->db->get('tbl_city_area')){
+      return $query->result();
+    }else{
+      return $this->db->error();
+    }
+
   }
 
   public function get_areas_by_city($id){

@@ -25,7 +25,7 @@
             <div class="row">
 
               <div class="col-md-12 col-sm-12 col-xs-12">
-                
+
               </div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -60,12 +60,12 @@
                         <input id="tfp" type="number" name="price" placeholder="full price" value="">
                         <button class="btn-primary"  id="id_save_txr" type="button" name="button">Add Transfer</button>
                     </div>
-					
+
 					<div  class="panel panel-body">
                         <input id="vehicle" type="text" placeholder="Mercedese 2 Seater" value="">
                         <button class="btn-primary"  id="id_save_vehicle" type="button" name="button">Add Vehicle</button>
                     </div>
-					
+
 					<?php endif; ?>
 
                     <h2><?php if(isset($heading)) echo $heading; ?> <small>All</small></h2>
@@ -90,16 +90,16 @@
                     <?php if( isset($res) ) echo '<div class="alert">'. $res.'</div>'; ?>
 					<?php foreach($areas as $k => $val){
 						$area_name[] =  $val->area_name;
-					} 					
+					}
 					?>
                     <p class="text-muted font-13 m-b-30"></p>
                     <table id="datatable-buttons" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          
+
 						  <th>Vehicle</th>
                           <th>Origin</th>
-                          <th>Destination</th>                          
+                          <th>Destination</th>
                           <th>Full Price</th>
                         </tr>
                       </thead>
@@ -111,10 +111,10 @@
 
 
                         <tr>
-                          
+
 						  <td><?=$value->transfer_type?></td>
-                          <td><?=$area_name[$value->transfer_origin]?></td>
-                          <td><?=$area_name[$value->transfer_destination]?></td>
+                          <td><?=$area_name[$value->transfer_origin-1]?></td>
+                          <td><?=$area_name[$value->transfer_destination-1]?></td>
                           <td><?=$value->transfer_full_price?></td>
                         </tr>
                         <?php
@@ -135,7 +135,7 @@
         </div>
         <!-- /page content -->
 
-               
+
         <!-- footer content -->
         <footer>
           <div class="pull-right">
@@ -171,6 +171,14 @@
     <script src="<?php echo base_url(); ?>gentelella/vendors/jszip/dist/jszip.min.js"></script>
     <script src="<?php echo base_url(); ?>gentelella/vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="<?php echo base_url(); ?>gentelella/vendors/pdfmake/build/vfs_fonts.js"></script>
+    <!-- Filter on cloumn -->
+    <script src="<?=base_url()?>gentelella/js/filters/filterable.js"></script>
+    <script src="<?=base_url()?>gentelella/js/filters/filterable-utils.js"></script>
+    <script src="<?=base_url()?>gentelella/js/filters/filterable-cell.js"></script>
+    <script src="<?=base_url()?>gentelella/js/filters/filterable-row.js"></script>
+    <script type="text/javascript">
+      $('table').filterable();
+    </script>
 
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url(); ?>gentelella/build/js/custom.min.js"></script>
@@ -244,7 +252,7 @@
 	<script>
 					$(document).ready(function(){
 						$('#id_save_vehicle').click(function(){
-							var vehicle = $('#vehicle').val();							
+							var vehicle = $('#vehicle').val();
 							if(vehicle != ""){
 								var reqData = {
 									'txr_type' : vehicle
@@ -255,7 +263,7 @@
 									data : reqData,
 									success : function(res){
 										console.log(res);
-										$('#vehicle').val('');	
+										$('#vehicle').val('');
 										$('#txr_type').append('<option value='+res+'>'+vehicle+'</option>');
 									}
 								})
@@ -263,8 +271,8 @@
 						})
 					});
 					</script>
-					
-					
+
+
 					<script>
 					$(document).ready(function(){
 						$('#id_save_txr').click(function(){
@@ -272,7 +280,7 @@
 							var origin = $('#to').val();
 							var dest = $('#td').val();
 							var uprice = $('#tup').val();
-							var price = $('#tfp').val();							
+							var price = $('#tfp').val();
 							if( (txr_type != "") && (origin != "") && (dest != "") && (uprice != "") && (price != "") ){
 								var reqData = {
 									'ttid' : txr_type,
@@ -288,7 +296,7 @@
 									success : function(res){
 										console.log(res);
 										$('#tup').val('');
-										$('#tfp').val('');									
+										$('#tfp').val('');
 										$('#datatable-buttons').append(res);
 									}
 								})

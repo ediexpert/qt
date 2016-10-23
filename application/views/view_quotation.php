@@ -1,5 +1,9 @@
 
 <?php $total_price = 0; ?>
+<?php foreach($areas as $k => $val){
+  $area_name[] =  $val->area_name;
+}
+?>
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -74,7 +78,7 @@
                           To
                           <address>
                                           <strong><?=$quotation_info[0]->quot_name?></strong>
-                                          <br><b>PAX:</b> <?=$quotation_info[0]->pax?>
+                                          <br><b>PAX:</b> <?=$pax=$quotation_info[0]->pax?>
 
                                           <br>Phone: 1 (804) 123-9876
                                           <br>Email: <?=$quotation_info[0]->email?>
@@ -111,7 +115,7 @@
 								<th>Price</th>
 								<?php endif; ?>
                                 <!-- <th style="width: 59%">Description</th> -->
-                                
+
                               </tr>
                             </thead>
                             <tbody>
@@ -135,8 +139,8 @@
 								  <td><?=$value->no_rooms?></td>
                                   <td><?=$value->cin_date?></td>
                                   <td><?=$value->cout_date?></td>
-								
-                                  <td><?php 
+
+                                  <td><?php
 								  $r = $this->quotation_model->quotation_hotel_total($quotation_info[0]->id)[0];
 								  print_r($r->total);
 								  $total_hotel = $r->total;
@@ -151,8 +155,8 @@
                                 </tr>
                               <?php
                               }*/
-							  
-							  
+
+
                               ?>
 							  <tr>
 								<td><?=$hotel[0]->hotel_name?></td>
@@ -162,11 +166,11 @@
 								<td><?=$hotel[0]->no_rooms?></td>
 								<td><?=$hotel[0]->arrival_date?></td>
 								<td><?=$hotel[0]->departure_date?></td>
-								
+
 								<td><?php $total_hotel_price = $hotel[0]->room_price*$hotel[0]->no_rooms; ?>
 								<?php if($isAdmin): echo $total_hotel_price;  endif; ?></td>
-								
-								
+
+
 							  </tr>
 
 
@@ -187,9 +191,9 @@
                                 <th>Time</th>
                                 <th>Services</th>
                                 <!-- <th style="width: 59%">Description</th> -->
-								
+
                                 <th><?php if($isAdmin): ?>Subtotal<?php endif; ?></th>
-								
+
                               </tr>
                             </thead>
                             <tbody>
@@ -210,7 +214,7 @@
                                   <td><b><?=$value->dayplan_date?></b></td>
                                   <td><?=$this->common->get_time_by_id($value->daytime_id)?></td>
                                   <td><?=$this->common->get_service_name_by_id_str($value->services_id)?></td>
-                                  
+
 								  <td><?php
                                   $sprice = $this->quotation_model->get_service_ids_by_qid_date($quotation_info[0]->id,$value->dayplan_date)[0] ;
                                   foreach ($sprice as $key => $val) {
@@ -218,22 +222,22 @@
                                     foreach ($s_price as $key => $v) {
                                       $service_price = $v;
 									  $service_adult +=$v;
-									  if($isAdmin): 
+									  if($isAdmin):
                                       echo $v;
 									   endif;
-									  
+
                                     }
 									//echo '/';
 									$s_price = $this->quotation_model->get_price_minor_by_service_ids($val)[0];
                                     foreach ($s_price as $key => $v) {
 									  $service_minor +=$v;
-                                     if($isAdmin): 
+                                     if($isAdmin):
                                       echo $v;
 									   endif;
                                     }
                                   }
                                    ?></td>
-								   
+
                                 </tr>
                               <?php
                               }
@@ -244,6 +248,58 @@
                         <!-- /.col -->
                       </div>
                       <!-- /.row -->
+
+
+
+                      <!--  transfer info -->
+                      <!-- Table row -->
+                      <div class="row">
+                        <div class="col-xs-12 table">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Date</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Qty</th>
+                                <th>Price(Full)</th>
+                                <th>Per Person</th>
+
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <!-- <tr>
+                                <td>1</td>
+                                <td>Call of Duty</td>
+                                <td>455-981-221</td>
+                                <td>El snort testosterone trophy driving gloves handsome gerry Richardson helvetica tousled street art master testosterone trophy driving gloves handsome gerry Richardson
+                                </td>
+                                <td>$64.50</td>
+                              </tr> -->
+                              <?php
+
+                              foreach ($txr_data as $key => $value) {
+
+                                ?>
+                                <tr>
+                                  <td><?=$value->dayplan_date?></td>
+                                  <td><?=$area_name[$value->txr_origin]?></td>
+                                  <td><?=$area_name[$value->txr_destination]?></td>
+                                  <td><?=$value->txr_qty?></td>
+                                  <td><?=$value->transfer_full_price?></td>
+                                  <td><?=($value->transfer_full_price*$value->txr_qty)/$pax?></td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+                      <!-- / transfer info -->
 
                       <div class="row">
                         <!-- accepted payments column -->
@@ -265,7 +321,7 @@
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Per Person(Adult):</th>
-                                  <td><?php  //echo $total_price = $hotel_price + $service_price; ?> 
+                                  <td><?php  //echo $total_price = $hotel_price + $service_price; ?>
 									<?=$service_adult?>
                                  AED</td>
                                 </tr>

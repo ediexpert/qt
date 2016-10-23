@@ -286,16 +286,17 @@ CREATE TABLE IF NOT EXISTS `tbl_quot_transfers` (
   CONSTRAINT `tbl_quot_transfers_ibfk_4` FOREIGN KEY (`transfer_id`) REFERENCES `tbl_transfer` (`id`),
   CONSTRAINT `tbl_quot_transfers_ibfk_5` FOREIGN KEY (`txr_origin`) REFERENCES `tbl_city_area` (`id`),
   CONSTRAINT `tbl_quot_transfers_ibfk_6` FOREIGN KEY (`txr_destination`) REFERENCES `tbl_city_area` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_quot_transfers: ~5 rows (approximately)
+-- Dumping data for table db_quotation.tbl_quot_transfers: ~6 rows (approximately)
 /*!40000 ALTER TABLE `tbl_quot_transfers` DISABLE KEYS */;
 INSERT INTO `tbl_quot_transfers` (`id`, `quotation_id`, `dayplan_date`, `daytime_id`, `transfer_type_id`, `transfer_id`, `txr_origin`, `txr_qty`, `txr_destination`) VALUES
 	(1, 9, '2016-09-16', NULL, 1, NULL, 1, 1, 2),
 	(2, 17, '2016-11-10', NULL, 1, NULL, 1, 1, 2),
 	(3, 17, '2016-11-11', NULL, 1, NULL, 2, 1, 6),
 	(4, 17, '2016-11-12', NULL, 1, NULL, 1, 1, 4),
-	(5, 17, '2016-11-13', NULL, 2, NULL, 5, 3, 6);
+	(5, 17, '2016-11-13', NULL, 2, NULL, 5, 3, 6),
+	(6, 17, '2016-11-14', NULL, 1, NULL, 5, 2, 6);
 /*!40000 ALTER TABLE `tbl_quot_transfers` ENABLE KEYS */;
 
 
@@ -406,15 +407,16 @@ CREATE TABLE IF NOT EXISTS `tbl_transfer` (
   `transfer_unit_price` varchar(6) DEFAULT NULL,
   `transfer_full_price` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_fare_index` (`transfer_type_id`,`transfer_origin`,`transfer_destination`),
   KEY `transfer_type_id` (`transfer_type_id`),
   KEY `FK_tbl_transfer_tbl_city_area` (`transfer_origin`),
   KEY `FK_tbl_transfer_tbl_city_area_2` (`transfer_destination`),
   CONSTRAINT `FK_tbl_transfer_tbl_city_area` FOREIGN KEY (`transfer_origin`) REFERENCES `tbl_city_area` (`id`),
   CONSTRAINT `FK_tbl_transfer_tbl_city_area_2` FOREIGN KEY (`transfer_destination`) REFERENCES `tbl_city_area` (`id`),
   CONSTRAINT `tbl_transfer_ibfk_1` FOREIGN KEY (`transfer_type_id`) REFERENCES `tbl_transfer_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_quotation.tbl_transfer: ~13 rows (approximately)
+-- Dumping data for table db_quotation.tbl_transfer: ~29 rows (approximately)
 /*!40000 ALTER TABLE `tbl_transfer` DISABLE KEYS */;
 INSERT INTO `tbl_transfer` (`id`, `transfer_type_id`, `transfer_origin`, `transfer_destination`, `transfer_unit_price`, `transfer_full_price`) VALUES
 	(1, 2, 2, 1, '100', '200'),
@@ -429,7 +431,23 @@ INSERT INTO `tbl_transfer` (`id`, `transfer_type_id`, `transfer_origin`, `transf
 	(10, 3, 1, 5, '100', '300'),
 	(11, 3, 5, 1, '100', '300'),
 	(12, 3, 1, 4, '75', '75'),
-	(13, 3, 4, 1, '75', '75');
+	(13, 3, 4, 1, '75', '75'),
+	(14, 1, 2, 3, '100', '500'),
+	(15, 1, 3, 2, '100', '500'),
+	(16, 1, 2, 4, '100', '500'),
+	(17, 1, 4, 2, '100', '500'),
+	(18, 1, 1, 2, '50', '250'),
+	(19, 1, 2, 1, '50', '250'),
+	(20, 1, 2, 6, '75', '700'),
+	(21, 1, 6, 2, '75', '700'),
+	(22, 1, 1, 4, '150', '500'),
+	(23, 1, 4, 1, '150', '500'),
+	(24, 2, 5, 6, '100', '700'),
+	(25, 2, 6, 5, '100', '700'),
+	(26, 1, 5, 6, '100', '700'),
+	(27, 1, 6, 5, '100', '700'),
+	(30, 7, 1, 7, '500', '1200'),
+	(31, 7, 7, 1, '500', '1200');
 /*!40000 ALTER TABLE `tbl_transfer` ENABLE KEYS */;
 
 

@@ -52,6 +52,8 @@ class Quotation extends CI_Controller {
 		$data['dayplan']=$this->quotation_model->get_quotation_dayplan($id);
 		$data['txr']=$this->quotation_model->get_quotation_txr($id);
 		$data['isAdmin'] = $this->user_model->is_admin();
+		$data['txr_data'] = $this->quotation_model->get_txr_by_qid($id);
+		$data['areas'] = $this->common->get_all_city_areas();
 		$this->load->view('quotation_head');
 		$this->load->view('side_menu');
 		$this->load->view('view_quotation',$data);
