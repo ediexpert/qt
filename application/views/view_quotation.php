@@ -1,5 +1,7 @@
 
-<?php $total_price = 0; ?>
+<?php $total_price = 0;
+$per_person_txr = 0;
+ ?>
 <?php foreach($areas as $k => $val){
   $area_name[] =  $val->area_name;
 }
@@ -191,9 +193,9 @@
                                 <th>Time</th>
                                 <th>Services</th>
                                 <!-- <th style="width: 59%">Description</th> -->
-
-                                <th><?php if($isAdmin): ?>Subtotal<?php endif; ?></th>
-
+                                <?php if($isAdmin): ?>
+                                <th>Subtotal</th>
+                                <?php endif; ?>
                               </tr>
                             </thead>
                             <tbody>
@@ -206,12 +208,12 @@
                                 <td>$64.50</td>
                               </tr> -->
                               <?php
-							  $service_adult = $service_minor = 0;
+							                           $service_adult = $service_minor = 0;
                               foreach ($dayplan as $key => $value) {
 
                                 ?>
                                 <tr>
-                                  <td><b><?=$value->dayplan_date?></b></td>
+                                  <td><b><?=date('d-m-Y',strtotime($value->dayplan_date))?></b></td>
                                   <td><?=$this->common->get_time_by_id($value->daytime_id)?></td>
                                   <td><?=$this->common->get_service_name_by_id_str($value->services_id)?></td>
 
@@ -221,23 +223,20 @@
                                     $s_price = $this->quotation_model->get_price_by_service_ids($val)[0];
                                     foreach ($s_price as $key => $v) {
                                       $service_price = $v;
-									  $service_adult +=$v;
-									  if($isAdmin):
-                                      echo $v;
-									   endif;
-
+                  									  $service_adult +=$v;
+                  									  if($isAdmin):
+                                        echo $v;
+                  									  endif;
                                     }
-									//echo '/';
-									$s_price = $this->quotation_model->get_price_minor_by_service_ids($val)[0];
-                                    foreach ($s_price as $key => $v) {
-									  $service_minor +=$v;
-                                     if($isAdmin):
-                                      echo $v;
-									   endif;
+									                 $s_price = $this->quotation_model->get_price_minor_by_service_ids($val)[0];
+                                   foreach ($s_price as $key => $v) {
+			                                 $service_minor +=$v;
+                                       if($isAdmin):
+                                         echo $v;
+				                               endif;
                                     }
                                   }
                                    ?></td>
-
                                 </tr>
                               <?php
                               }
@@ -262,8 +261,10 @@
                                 <th>Origin</th>
                                 <th>Destination</th>
                                 <th>Qty</th>
-                                <th>Price(Full)</th>
-                                <th>Per Person</th>
+                                <?php if($isAdmin): ?>
+                                  <th>Price(Full)</th>
+                                  <th>Per Person</th>
+                                <?php endif; ?>
 
 
                               </tr>
@@ -284,11 +285,15 @@
                                 ?>
                                 <tr>
                                   <td><?=$value->dayplan_date?></td>
-                                  <td><?=$area_name[$value->txr_origin]?></td>
-                                  <td><?=$area_name[$value->txr_destination]?></td>
+                                  <td><?=$area_name[$value->txr_origin-1]?></td>
+                                  <td><?=$area_name[$value->txr_destination-1]?></td>
                                   <td><?=$value->txr_qty?></td>
+                                  <?php   $tp = ($value->transfer_full_price*$value->txr_qty)/$pax;
+                                    $per_person_txr = $per_person_txr + $tp;
+                                    if($isAdmin): ?>
                                   <td><?=$value->transfer_full_price?></td>
-                                  <td><?=($value->transfer_full_price*$value->txr_qty)/$pax?></td>
+                                  <td><?=$tp?></td>
+                                <?php endif; ?>
                                 </tr>
                               <?php
                               }
@@ -304,7 +309,7 @@
                       <div class="row">
                         <!-- accepted payments column -->
                         <div class="col-xs-6">
-                          <p class="lead">Payment Methods:<?=$service_adult?>/<?=$service_minor?></p>
+                          <p class="lead">Payment Methods:</p>
                           <img src="<?php echo base_url(); ?>images/visa.png" alt="Visa">
                           <img src="<?php echo base_url(); ?>images/mastercard.png" alt="Mastercard">
                           <img src="<?php echo base_url(); ?>images/american-express.png" alt="American Express">
@@ -315,7 +320,7 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-6">
-                          <p class="lead">Amount Due 2/22/2014</p>
+                          <p class="lead">Quote Price</p>
                           <div class="table-responsive">
                             <table class="table">
                               <tbody>
@@ -334,8 +339,26 @@
                                   <td>$5.80</td>
                                 </tr> -->
                                 <tr>
+                                  <th>Transfer(per head):</th>
+                                  <td><b><?=$per_person_txr?> AED</b></td>
+                                </tr>
+                                <tr>
                                   <th>Total:</th>
-                                  <td><b><?php //$total_price+$tax; ?>  <?php echo $total = $total_hotel_price +($service_adult*$hotel[0]->pax)+($service_minor*$hotel[0]->minor); ?> AED</b></td>
+                                  <?php
+                                    //$quotation_total = ($perhead_hotel)*$adults +($perhead_hotel)*$minors +($perhead_services)*$adults +($perhead_services)*$minors + ($perhead_txr)*$pax;
+                                    $total = $total_hotel_price +($service_adult*$hotel[0]->pax)+($service_minor*$hotel[0]->minor)+($per_person_txr)*$pax;
+                                    $total_with_profit = $total +($total*$quotation_info[0]->profit)/100;
+                                    $exact_profit = $total_with_profit - $total;
+                                  ?>
+                                  <td><b><?=$total_with_profit?> AED</b></td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    Profit
+                                  </td>
+                                  <td><?=$quotation_info[0]->profit?>% -
+                                    <?=$exact_profit?>
+                                  </td>
                                 </tr>
                               </tbody>
                             </table>
