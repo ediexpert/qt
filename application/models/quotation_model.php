@@ -219,6 +219,16 @@ class Quotation_Model extends CI_Model {
     }
 
 
+    function update_profit(){
+
+      $this->db->set('profit', $_REQUEST['profit']);
+      $this->db->where('id', $_REQUEST['id']);
+      $this->db->update('tbl_quotation');
+      return $this->db->affected_rows() > 0 ? true:false;
+
+    }
+
+
     function quotation_hotel_room_price($id){
       $query = "select max(room_price) FROM tbl_room where id in (select room_type_id from tbl_quot_hotel where quotation_id = '$id')";
       $q = $this->db->query($query);

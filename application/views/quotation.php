@@ -85,7 +85,10 @@
                           <td>
                             <button type="button" value="<?=$value->id?>" onclick="window.location='quotation/view/<?=$value->id?>'" class="view_quot btn btn-primary" name="button">View</button>
                             <button type="button" class="btn btn-primary" onclick="window.location='quotation/quot/<?=$value->id?>'" name="button">Edit</button>
-                            <?php if($isAdmin) : ?><button type="button" class="btn btn-danger" onclick="delenquiry(<?=$value->id?>);$(this).closest('tr').remove();" >Delete</button> <?php endif; ?>
+                            <?php if($isAdmin) : ?>
+                              <button type="button" class="btn btn-danger" onclick="delenquiry(<?=$value->id?>);$(this).closest('tr').remove();" >Delete</button>
+                              <button type="button" class="btn btn-danger" onclick="window.location='quotation/profit/<?=$value->id?>'" >Profit</button>  
+                            <?php endif; ?>
                           </td>
                         </tr>
                         <?php

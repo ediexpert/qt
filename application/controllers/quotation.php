@@ -109,6 +109,19 @@ class Quotation extends CI_Controller {
 	}
 
 
+	function profit($id){
+		$data['quot'] = $this->quotation_model->get_quotation_data($id);
+		$this->load->view('quotation_head');
+		$this->load->view('side_menu');
+		$this->load->view('profit',$data);
+	}
+	function profit_update(){
+		$res = $this->quotation_model->update_profit();
+		echo json_encode($res);
+	}
+
+
+
 	public function get_hotels_list($id)	{
                 $data['hotels'] = $this->quotation_model->get_hotels($id);
 	        echo json_encode($data);
