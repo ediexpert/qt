@@ -166,8 +166,8 @@ $per_person_txr = 0;
 								<td><?=$hotel[0]->pax?></td>
 								<td><?=$hotel[0]->minor?></td>
 								<td><?=$hotel[0]->no_rooms?></td>
-								<td><?=$hotel[0]->arrival_date?></td>
-								<td><?=$hotel[0]->departure_date?></td>
+								<td><?=date('d-m-Y',strtotime($hotel[0]->arrival_date))?></td>
+								<td><?=date('d-m-Y',strtotime($hotel[0]->departure_date))?></td>
 
 								<td><?php $total_hotel_price = $hotel[0]->room_price*$hotel[0]->no_rooms; ?>
 								<?php if($isAdmin): echo $total_hotel_price;  endif; ?></td>
@@ -284,7 +284,7 @@ $per_person_txr = 0;
 
                                 ?>
                                 <tr>
-                                  <td><?=$value->dayplan_date?></td>
+                                  <td><?=date('d-m-Y',strtotime($value->dayplan_date))?></td>
                                   <td><?=$area_name[$value->txr_origin-1]?></td>
                                   <td><?=$area_name[$value->txr_destination-1]?></td>
                                   <td><?=$value->txr_qty?></td>
@@ -322,36 +322,37 @@ $per_person_txr = 0;
                         <div class="col-xs-6">
                           <p class="lead">Quote Price</p>
                           <div class="table-responsive">
+                            <?php
+                              //$quotation_total = ($perhead_hotel)*$adults +($perhead_hotel)*$minors +($perhead_services)*$adults +($perhead_services)*$minors + ($perhead_txr)*$pax;
+                              $minors = $hotel[0]->minor;
+                              $adults = $hotel[0]->pax -  $minors;
+                              $total = $total_hotel_price +($service_adult*$adults)+($service_minor*$minors)+($per_person_txr)*$pax;
+                              $total_with_profit = $total +($total*$quotation_info[0]->profit)/100;
+                              $exact_profit = $total_with_profit - $total;
+
+
+
+                            ?>
                             <table class="table">
                               <tbody>
                                 <tr>
                                   <th style="width:50%">Per Person(Adult):</th>
-                                  <td><?php  //echo $total_price = $hotel_price + $service_price; ?>
-									<?=$service_adult?>
-                                 AED</td>
+                                  <td>(<?=$service_adult?> AED )  X <?=$adults?></td>
                                 </tr>
                                 <tr>
                                   <th>Per Person(Minor)</th>
-                                  <td><?php //echo $tax = ceil($total_price * 9.3)/100; ?> <?=$service_minor?> AED</td>
+                                  <td>(<?=$service_minor?> AED ) X <?=$minors?></td>
                                 </tr>
-                                <!-- <tr>
-                                  <th>Shipping:</th>
-                                  <td>$5.80</td>
-                                </tr> -->
                                 <tr>
                                   <th>Transfer(per head):</th>
-                                  <td><b><?=$per_person_txr?> AED</b></td>
+                                  <td>(<?=$per_person_txr?> AED ) X <?=$pax?></td>
                                 </tr>
                                 <tr>
                                   <th>Total:</th>
-                                  <?php
-                                    //$quotation_total = ($perhead_hotel)*$adults +($perhead_hotel)*$minors +($perhead_services)*$adults +($perhead_services)*$minors + ($perhead_txr)*$pax;
-                                    $total = $total_hotel_price +($service_adult*$hotel[0]->pax)+($service_minor*$hotel[0]->minor)+($per_person_txr)*$pax;
-                                    $total_with_profit = $total +($total*$quotation_info[0]->profit)/100;
-                                    $exact_profit = $total_with_profit - $total;
-                                  ?>
+
                                   <td><b><?=$total_with_profit?> AED</b></td>
                                 </tr>
+                                <?php if($isAdmin):?>
                                 <tr>
                                   <td>
                                     Profit
@@ -360,6 +361,7 @@ $per_person_txr = 0;
                                     <?=$exact_profit?>
                                   </td>
                                 </tr>
+                              <?php endif;?>
                               </tbody>
                             </table>
                           </div>
