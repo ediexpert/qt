@@ -168,24 +168,34 @@ ob_start();?>
             //$quotation_total = ($perhead_hotel)*$adults +($perhead_hotel)*$minors +($perhead_services)*$adults +($perhead_services)*$minors + ($perhead_txr)*$pax;
             $minors = $hotel[0]->minor;
             $adults = $hotel[0]->pax -  $minors;
+            $hpp = $total_hotel_price / $pax;
+
             $total = $total_hotel_price +($service_adult*$adults)+($service_minor*$minors)+($per_person_txr)*$pax;
             $total_with_profit = $total +($total*$quotation_info[0]->profit)/100;
             $exact_profit = $total_with_profit - $total;
+            $ppadult = $hpp + $service_adult + $per_person_txr;
+            $ppadult = $ppadult + ($ppadult * $quotation_info[0]->profit) / 100 ;
+            $ppminor = $hpp + $service_minor + $per_person_txr;
+            $ppminor = $ppminor + ($ppminor * $quotation_info[0]->profit) / 100 ;
+
+
           ?>
           <table class="table">
             <tbody>
               <tr>
                 <th style="width:50%">Per Person(Adult):</th>
-                <td>(<?=$service_adult?> AED )  X <?=$adults?></td>
+                <td>(<?=$ppadult?> AED )  X <?=$adults?></td>
               </tr>
               <tr>
                 <th>Per Person(Minor)</th>
-                <td>(<?=$service_minor?> AED ) X <?=$minors?></td>
+                <td>(<?=$ppminor?> AED ) X <?=$minors?></td>
               </tr>
+              <?php /*
               <tr>
                 <th>Transfer(per head):</th>
                 <td>(<?=$per_person_txr?> AED ) X <?=$pax?></td>
               </tr>
+              */?>
               <tr>
                 <th>Total:</th>
 
